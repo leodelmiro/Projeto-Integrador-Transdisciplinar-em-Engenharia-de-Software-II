@@ -1,6 +1,11 @@
 package com.leodelmiro.cupcakes.model
 
+import javax.persistence.*
+
+@Entity
 class Sabor(
-        id: Long? = null,
-        nome: String
+        @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long? = null,
+        @field:Column(nullable = false)
+        val nome: String
 )

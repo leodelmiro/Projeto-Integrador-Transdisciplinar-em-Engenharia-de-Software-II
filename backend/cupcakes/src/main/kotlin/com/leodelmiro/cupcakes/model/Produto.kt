@@ -1,13 +1,22 @@
 package com.leodelmiro.cupcakes.model
 
 import java.math.BigDecimal
+import javax.persistence.*
 
+@Entity
 class Produto(
-        id: Long? = null,
-        nome: String,
-        quantidade: Int,
-        preco: BigDecimal,
-        descricao: String,
-        sabor: Sabor,
-        foto: Foto
+        @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long? = null,
+        @field:Column(nullable = false)
+        val nome: String,
+        @field:Column(nullable = false)
+        val quantidade: Int,
+        @field:Column(nullable = false)
+        val preco: BigDecimal,
+        @field:Column(nullable = false)
+        val descricao: String,
+        @field:Column(nullable = false)
+        val sabor: Sabor,
+        @field:Column(nullable = false)
+        val foto: Foto
 )
