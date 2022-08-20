@@ -5,10 +5,11 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity
+@Entity(name = "tb_usuario")
 class Usuario(
-        @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
+        @field:Id
+        @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null,
         @field:Column(nullable = false, unique = true)
         val cpf: String,
         @field:Column(nullable = false, unique = true)
@@ -19,12 +20,15 @@ class Usuario(
         val telefone: Telefone,
         @field:Embedded
         val endereco: Endereco,
-        @field:Column(nullable = false)
+        @field:ManyToMany(fetch = FetchType.EAGER)
+        @field:JoinTable(name = "tb_usuarios_role",
+                joinColumns = [JoinColumn(name = "usuario_id")],
+                inverseJoinColumns = [JoinColumn(name = "role_id")])
         val role: Set<Role>,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
-        val criadoEm: LocalDateTime,
+        val criadoEm: LocalDateTime = LocalDateTime.now(),
         @field:UpdateTimestamp
         @field:Column(nullable = true, updatable = true)
-        val atualizadoEm: LocalDateTime
+        val atualizadoEm: LocalDateTime? = null
 )

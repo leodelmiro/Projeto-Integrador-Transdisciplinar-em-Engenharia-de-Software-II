@@ -4,13 +4,14 @@ import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity
-abstract class Pagamento(
-        @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+@Entity(name = "tb_pagamento")
+class Pagamento(
+        @field:Id
+        @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
         val horarioPagamento: LocalDateTime = LocalDateTime.now(),
-        @Enumerated(EnumType.STRING)
+        @field:Enumerated(EnumType.STRING)
         val metodoPagamento: MetodoPagamento
 )

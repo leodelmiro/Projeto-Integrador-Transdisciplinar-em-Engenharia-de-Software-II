@@ -5,16 +5,20 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity
+@Entity(name = "tb_foto")
 class Foto(
-        @field:Id @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
+        @field:Id
+        @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null,
         @field:Column(nullable = false)
         val url: String,
+        @field:ManyToOne
+        @field:JoinColumn(name = "produto_id")
+        val produto: Produto,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
-        val criadoEm: LocalDateTime,
+        val criadoEm: LocalDateTime = LocalDateTime.now(),
         @field:UpdateTimestamp
         @field:Column(nullable = true, updatable = true)
-        val atualizadoEm: LocalDateTime
+        val atualizadoEm: LocalDateTime? = null
 )
