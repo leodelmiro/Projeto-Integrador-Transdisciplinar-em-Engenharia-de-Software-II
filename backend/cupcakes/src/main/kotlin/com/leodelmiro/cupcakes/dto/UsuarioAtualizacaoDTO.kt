@@ -4,9 +4,11 @@ import com.leodelmiro.cupcakes.dto.EnderecoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.TelefoneDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.model.Usuario
 
-class UsuarioAtualizacaoDTO(val nome: String, val telefone: TelefoneDTO, val endereco: EnderecoDTO) {
-
-    // TODO VALIDAÇÃO
+class UsuarioAtualizacaoDTO(
+        val nome: String,
+        val telefone: TelefoneDTO,
+        val endereco: EnderecoDTO
+) {
 
     companion object {
         fun UsuarioAtualizacaoDTO.toEntidade(entity: Usuario): Usuario = entity.apply {
