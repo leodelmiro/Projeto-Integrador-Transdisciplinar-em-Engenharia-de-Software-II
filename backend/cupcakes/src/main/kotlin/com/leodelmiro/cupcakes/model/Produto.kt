@@ -9,19 +9,27 @@ class Produto(
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
         @field:Column(nullable = false)
-        val nome: String,
+        var nome: String,
         @field:Column(nullable = false)
-        val quantidade: Int,
+        var quantidade: Int,
         @field:Column(nullable = false)
-        val preco: BigDecimal,
+        var preco: BigDecimal,
         @field:Column(nullable = false)
-        val descricao: String,
+        var descricao: String,
         @field:ManyToMany(fetch = FetchType.EAGER)
-        @field:JoinTable(name = "tb_produto_sabor",
+        @field:JoinTable(
+                name = "tb_produto_sabor",
                 joinColumns = [JoinColumn(name = "produto_id")],
                 inverseJoinColumns = [JoinColumn(name = "sabor_id")])
-        val sabor: Set<Sabor>,
-        @OneToMany
-        @JoinColumn(name = "foto")
-        val foto: List<Foto>
-)
+        var sabores: Set<Sabor> = mutableSetOf(),
+        @field:OneToMany(
+                mappedBy = "produto",
+                fetch = FetchType.EAGER,
+                cascade = [CascadeType.ALL],
+                orphanRemoval = true
+        )
+        val fotos: List<Foto> = mutableListOf()
+) {
+        fun addSabor(sabor: Sabor) = this.sabores + sabor
+        fun addFoto(foto: Foto) = this.fotos + foto
+}

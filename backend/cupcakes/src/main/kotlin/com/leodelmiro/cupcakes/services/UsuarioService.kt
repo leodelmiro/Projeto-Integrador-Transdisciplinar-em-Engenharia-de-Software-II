@@ -1,10 +1,12 @@
 package com.leodelmiro.cupcakes.services
 
+import com.leodelmiro.cupcakes.dto.EnderecoDTO.Companion.toEntidade
+import com.leodelmiro.cupcakes.dto.TelefoneDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.UsuarioAtualizacaoDTO
-import com.leodelmiro.cupcakes.dto.UsuarioAtualizacaoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.UsuarioInclusaoDTO
 import com.leodelmiro.cupcakes.dto.UsuarioInclusaoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.UsuarioResponseDTO
+import com.leodelmiro.cupcakes.model.Usuario
 import com.leodelmiro.cupcakes.repositories.RoleRepository
 import com.leodelmiro.cupcakes.repositories.UsuarioRepository
 import com.leodelmiro.cupcakes.services.exceptions.DatabaseException
@@ -20,13 +22,13 @@ import javax.persistence.EntityNotFoundException
 class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowired val roleRepository: RoleRepository) {
 
     @Transactional(readOnly = true)
-    fun findById(id: Long): UsuarioResponseDTO =
+    fun encontrarPorId(id: Long): UsuarioResponseDTO =
             userRepository.findById(id)
-                    .orElseThrow { RecursoNotFoundException("Entity not found") }
+                    .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
                     .let { usuario -> UsuarioResponseDTO(usuario) }
 
     @Transactional
-    fun insert(dto: UsuarioInclusaoDTO): UsuarioResponseDTO? =
+    fun inserir(dto: UsuarioInclusaoDTO): UsuarioResponseDTO =
             dto.toEntidade(roleRepository).apply {
                 // TODO ENCRYPT DA SENHA ANTES DE SALVAR
                 userRepository.save(this)
@@ -36,10 +38,11 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
 
 
     @Transactional
-    fun update(id: Long, dto: UsuarioAtualizacaoDTO): UsuarioResponseDTO? =
+    fun atualizar(id: Long, dto: UsuarioAtualizacaoDTO): UsuarioResponseDTO =
             try {
                 userRepository.getReferenceById(id).apply {
-                    userRepository.save(dto.toEntidade(this))
+                    updateCamposNaoNulos(dto)
+                    userRepository.save(this)
                 }.let { entidade ->
                     UsuarioResponseDTO(entidade)
                 }
@@ -47,9 +50,14 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
                 throw RecursoNotFoundException("Id não encontrado de id: $id")
             }
 
+    private fun Usuario.updateCamposNaoNulos(dto: UsuarioAtualizacaoDTO) {
+        dto.nome?.let { this.nome = it }
+        dto.telefone?.let { it.toEntidade().also { telefone -> this.telefone = telefone } }
+        dto.endereco?.let { it.toEntidade().also { endereco -> this.endereco = endereco } }
+    }
 
     @Transactional
-    fun delete(id: Long) = try {
+    fun deletar(id: Long) = try {
         userRepository.deleteById(id)
     } catch (e: EmptyResultDataAccessException) {
         throw RecursoNotFoundException("Id não encontrado de id: $id")

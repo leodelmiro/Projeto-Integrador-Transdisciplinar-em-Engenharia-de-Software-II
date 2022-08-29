@@ -11,19 +11,20 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import javax.validation.Valid
 
 
-@RestController(value = "/usuarios")
+@RestController
+@RequestMapping(value = ["/usuarios"])
 class UsuarioController(
         @Autowired val usuarioService: UsuarioService,
 ) {
     @GetMapping(value = ["/{id}"])
     fun encontrarPorId(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO>? =
-            usuarioService.findById(id).let {
+            usuarioService.encontrarPorId(id).let {
                 ResponseEntity.ok().body(it)
             }
 
     @PostMapping
     fun adicionar(@Valid @RequestBody dto: UsuarioInclusaoDTO): ResponseEntity<UsuarioResponseDTO>? =
-            usuarioService.insert(dto)?.let { novoUsuario ->
+            usuarioService.inserir(dto)?.let { novoUsuario ->
                 val uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
@@ -36,13 +37,13 @@ class UsuarioController(
     @PutMapping(value = ["/{id}"])
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: UsuarioAtualizacaoDTO)
             : ResponseEntity<UsuarioResponseDTO>? =
-            usuarioService.update(id, dto).let { usuarioAtualizado ->
+            usuarioService.atualizar(id, dto).let { usuarioAtualizado ->
                 ResponseEntity.ok().body(usuarioAtualizado)
             }
 
     @DeleteMapping(value = ["/{id}"])
     fun deletar(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO>? =
-            usuarioService.delete(id).let {
+            usuarioService.deletar(id).let {
                 ResponseEntity.noContent().build()
             }
 

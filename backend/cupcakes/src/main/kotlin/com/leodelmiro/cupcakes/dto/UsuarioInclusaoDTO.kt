@@ -32,6 +32,7 @@ class UsuarioInclusaoDTO(
         val endereco: EnderecoDTO,
         @field:NotNull(message = "Role não pode ser nulo.")
         @field:Size(min = 1, message = "O usuário deve ter no mínimo 1 role")
+        // TODO FAZER INCLUSÃO DE ROLES CONTROLLER
         val roles: List<Long>
 ) {
     companion object {

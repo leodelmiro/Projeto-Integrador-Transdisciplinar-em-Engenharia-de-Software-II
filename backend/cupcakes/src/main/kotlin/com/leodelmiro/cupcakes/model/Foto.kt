@@ -12,13 +12,13 @@ class Foto(
         var id: Long? = null,
         @field:Column(nullable = false)
         val url: String,
-        @field:ManyToOne
-        @field:JoinColumn(name = "produto_id")
-        val produto: Produto,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
         val criadoEm: LocalDateTime = LocalDateTime.now(),
         @field:UpdateTimestamp
         @field:Column(nullable = true, updatable = true)
-        val atualizadoEm: LocalDateTime? = null
+        val atualizadoEm: LocalDateTime? = null,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @field:JoinColumn(name = "produto_id")
+        val produto: Produto
 )
