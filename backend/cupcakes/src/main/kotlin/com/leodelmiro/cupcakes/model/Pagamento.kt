@@ -4,7 +4,8 @@ import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tb_pagamento")
+@Entity
+@Table(name = "tb_pagamento")
 class Pagamento(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,7 +6,8 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tb_pedido")
+@Entity
+@Table(name = "tb_pedido")
 class Pedido(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,9 @@ class Pedido(
         @field:JoinColumn(name = "usuario_id")
         val usuario: Usuario,
         @field:OneToMany
-        @field:JoinColumn(name = "produto_id")
+        @field:JoinTable(name = "tb_pedido_produto",
+                joinColumns = [JoinColumn(name = "pedido_id")],
+                inverseJoinColumns = [JoinColumn(name = "produto_id")])
         val produtos: List<Produto>,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)

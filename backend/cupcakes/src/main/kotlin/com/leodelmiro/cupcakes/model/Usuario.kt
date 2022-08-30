@@ -5,7 +5,8 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tb_usuario")
+@Entity
+@Table(name = "tb_usuario")
 class Usuario(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)

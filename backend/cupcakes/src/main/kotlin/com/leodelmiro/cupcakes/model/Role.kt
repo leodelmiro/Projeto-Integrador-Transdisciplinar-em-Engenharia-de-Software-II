@@ -2,7 +2,8 @@ package com.leodelmiro.cupcakes.model
 
 import javax.persistence.*
 
-@Entity(name = "tb_role")
+@Entity
+@Table(name = "tb_role")
 class Role(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)

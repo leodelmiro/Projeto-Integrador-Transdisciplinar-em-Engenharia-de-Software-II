@@ -17,14 +17,15 @@ class UsuarioController(
         @Autowired val usuarioService: UsuarioService,
 ) {
     @GetMapping(value = ["/{id}"])
-    fun encontrarPorId(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO>? =
+    fun encontrarPorId(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO> =
             usuarioService.encontrarPorId(id).let {
                 ResponseEntity.ok().body(it)
             }
 
+    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PostMapping
-    fun adicionar(@Valid @RequestBody dto: UsuarioInclusaoDTO): ResponseEntity<UsuarioResponseDTO>? =
-            usuarioService.inserir(dto)?.let { novoUsuario ->
+    fun adicionar(@Valid @RequestBody dto: UsuarioInclusaoDTO): ResponseEntity<UsuarioResponseDTO> =
+            usuarioService.inserir(dto).let { novoUsuario ->
                 val uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
@@ -33,16 +34,17 @@ class UsuarioController(
                 ResponseEntity.created(uri).body(novoUsuario)
             }
 
-
+    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PutMapping(value = ["/{id}"])
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: UsuarioAtualizacaoDTO)
-            : ResponseEntity<UsuarioResponseDTO>? =
+            : ResponseEntity<UsuarioResponseDTO> =
             usuarioService.atualizar(id, dto).let { usuarioAtualizado ->
                 ResponseEntity.ok().body(usuarioAtualizado)
             }
 
+    // TODO DEIXAR APENAS ADMIN
     @DeleteMapping(value = ["/{id}"])
-    fun deletar(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO>? =
+    fun deletar(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO> =
             usuarioService.deletar(id).let {
                 ResponseEntity.noContent().build()
             }

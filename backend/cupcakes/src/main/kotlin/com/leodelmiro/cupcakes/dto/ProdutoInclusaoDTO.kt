@@ -17,7 +17,6 @@ class ProdutoInclusaoDTO(
         val descricao: String,
         @field:NotNull(message = "Sabor não pode ser nulo.")
         @field:Size(min = 1, message = "O produto deve ter no mínimo 1 sabor")
-        // TODO FAZER INCLUSÃO DE SABOR CONTROLLER
         val sabores: List<Long>,
         @field:Valid
         @field:Size(min = 1, message = "Insira pelo menos uma foto")

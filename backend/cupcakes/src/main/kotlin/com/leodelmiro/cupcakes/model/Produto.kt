@@ -1,9 +1,13 @@
 package com.leodelmiro.cupcakes.model
 
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tb_produto")
+@Entity
+@Table(name = "tb_produto")
 class Produto(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +32,13 @@ class Produto(
                 cascade = [CascadeType.ALL],
                 orphanRemoval = true
         )
-        val fotos: List<Foto> = mutableListOf()
+        val fotos: List<Foto> = mutableListOf(),
+        @field:CreationTimestamp
+        @field:Column(nullable = false, updatable = false)
+        val criadoEm: LocalDateTime = LocalDateTime.now(),
+        @field:UpdateTimestamp
+        @field:Column(nullable = true, updatable = true)
+        val atualizadoEm: LocalDateTime? = null
 ) {
         fun addSabor(sabor: Sabor) = this.sabores + sabor
         fun addFoto(foto: Foto) = this.fotos + foto

@@ -5,13 +5,14 @@ import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 import javax.persistence.*
 
-@Entity(name = "tb_sabor")
+@Entity
+@Table(name = "tb_sabor")
 class Sabor(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
         @field:Column(nullable = false)
-        val nome: String,
+        var nome: String,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
         val criadoEm: LocalDateTime = LocalDateTime.now(),
