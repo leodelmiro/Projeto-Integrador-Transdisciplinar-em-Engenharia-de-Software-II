@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 import javax.persistence.EntityNotFoundException
 
 
@@ -41,6 +42,17 @@ class ProdutoService(
             produtoRepository.findById(id)
                     .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
                     .let { produto -> ProdutoResponseDTO(produto) }
+
+    @Transactional(readOnly = true)
+    fun encontrarPrecoProdutoPorId(id: Long): BigDecimal =
+            produtoRepository.findById(id)
+                    .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
+                    .preco
+
+    @Transactional(readOnly = true)
+    fun encontrarEntidadePorId(id: Long): Produto =
+            produtoRepository.findById(id)
+                    .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
 
     @Transactional
     fun inserir(dto: ProdutoInclusaoDTO): ProdutoResponseDTO =

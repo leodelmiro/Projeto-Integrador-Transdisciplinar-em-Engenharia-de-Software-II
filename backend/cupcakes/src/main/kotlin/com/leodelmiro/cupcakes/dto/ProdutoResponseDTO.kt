@@ -1,7 +1,6 @@
 package com.leodelmiro.cupcakes.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.leodelmiro.cupcakes.model.Foto
 import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.model.Sabor
 import java.math.BigDecimal
@@ -14,7 +13,7 @@ class ProdutoResponseDTO(
         val preco: BigDecimal,
         val descricao: String,
         val sabores: Set<Sabor>,
-        val fotos: List<Foto>
+        val fotos: List<String>
 ) {
     constructor(entidade: Produto) : this(
             nome = entidade.nome,
@@ -22,6 +21,6 @@ class ProdutoResponseDTO(
             preco = entidade.preco,
             descricao = entidade.descricao,
             sabores = entidade.sabores,
-            fotos = entidade.fotos,
+            fotos = entidade.fotos.map { foto -> foto.url },
     )
 }

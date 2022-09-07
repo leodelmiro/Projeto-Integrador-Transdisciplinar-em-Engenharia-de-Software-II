@@ -20,7 +20,7 @@ class ProdutoInclusaoDTO(
         val sabores: List<Long>,
         @field:Valid
         @field:Size(min = 1, message = "Insira pelo menos uma foto")
-        val fotos: List<FotoDTO>
+        val fotos: List<@Valid FotoDTO>
 ) {
 
     companion object {
