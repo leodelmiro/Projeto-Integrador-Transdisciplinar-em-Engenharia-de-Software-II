@@ -24,8 +24,13 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
     @Transactional(readOnly = true)
     fun encontrarPorId(id: Long): UsuarioResponseDTO =
             userRepository.findById(id)
-                    .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
+                    .orElseThrow { RecursoNotFoundException("Id não encontrado de usuário id: $id") }
                     .let { usuario -> UsuarioResponseDTO(usuario) }
+
+    @Transactional(readOnly = true)
+    fun encontrarEntidadePorId(id: Long): Usuario =
+            userRepository.findById(id)
+                    .orElseThrow { RecursoNotFoundException("Id não encontrado de usuário id: $id") }
 
     @Transactional
     fun inserir(dto: UsuarioInclusaoDTO): UsuarioResponseDTO =
@@ -47,7 +52,7 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
                     UsuarioResponseDTO(entidade)
                 }
             } catch (e: EntityNotFoundException) {
-                throw RecursoNotFoundException("Id não encontrado de id: $id")
+                throw RecursoNotFoundException("Id não encontrado de usuário id: $id")
             }
 
     private fun Usuario.updateCamposNaoNulos(dto: UsuarioAtualizacaoDTO) {
@@ -60,7 +65,7 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
     fun deletar(id: Long) = try {
         userRepository.deleteById(id)
     } catch (e: EmptyResultDataAccessException) {
-        throw RecursoNotFoundException("Id não encontrado de id: $id")
+        throw RecursoNotFoundException("Id não encontrado de usuário id: $id")
     } catch (e: DataIntegrityViolationException) {
         throw DatabaseException("Violação de integridade do banco")
     }

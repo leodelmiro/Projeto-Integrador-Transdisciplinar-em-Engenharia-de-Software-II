@@ -21,6 +21,13 @@ class PedidoController(
                 ResponseEntity.ok().body(it)
             }
 
+
+    @GetMapping(value = ["/usuarios/{id}"])
+    fun encontrarTodosPorUsuario(@PathVariable id: Long): ResponseEntity<List<PedidoResponseDTO>>? =
+            pedidoService.encontrarTodosPorUsuario(id).let {
+                ResponseEntity.ok().body(it)
+            }
+
     @PostMapping
     fun criar(@Valid @RequestBody dto: PedidoCriacaoDTO): ResponseEntity<PedidoResponseDTO>? =
             pedidoService.inserir(dto).let { novoPedido ->
@@ -32,34 +39,10 @@ class PedidoController(
                 ResponseEntity.created(uri).body(novoPedido)
             }
 
-//    @GetMapping(value = ["/{usuario}"])
-//    fun encontrarTodosPorUsuario(@PathVariable id: Long): ResponseEntity<List<PedidoResponseDTO>>? =
-//            pedidoService.encontrarTodosPorUsuario(id).let {
-//                ResponseEntity.ok().body(it)
-//            }
-//
-//    @PostMapping(value = ["/{id}/produtos"])
-//    // TODO RECEBER DADOS DE UM PRODUTO (ID PRODUTO + QUANTIDADE)
-//    fun adicionarProduto(@PathVariable id: Long, @Valid @RequestBody dto: PedidoAdicaoProdutoDTO)
-//            : ResponseEntity<PedidoResponseDTO>? =
-//            pedidoService.adicionarProduto(id, dto).let { produtoAtualizado ->
-//                ResponseEntity.ok().body(produtoAtualizado)
-//            }
-//
-//    @DeleteMapping(value = ["/{id}/produtos/{idProduto}"])
-//    // TODO RECEBER DADOS DE UM PRODUTO
-//    fun removerProduto(@PathVariable id: Long, @PathVariable idProduto: Long): ResponseEntity<ProdutoResponseDTO>? =
-//            pedidoService.removerProduto(id, idProduto.let {
-//                ResponseEntity.noContent().build()
-//            }
-//
-//    @DeleteMapping(value = ["/{id}/produtos"])
-//    fun removerTodosProdutos(@PathVariable id: Long): ResponseEntity<ProdutoResponseDTO> =
-//            pedidoService.removerTodosProdutos(id).let {
-//                ResponseEntity.noContent().build()
-//            }
-//
-//    @PostMapping(value = ["/{id}/finalizar"])
+//    @PostMapping(value = ["/{id}/pagar"])
+    // TODO VALIDAÇÃO DE QUANTIDADE DO PRODUTO ANTES DE ADICIONAR
+    // TODO BAIXA ESTOQUE DE QUANTIDADE
+    // TODO METODO DE PAGAMENTO
 //    fun finalizar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
 //            : ResponseEntity<PedidoResponseDTO> =
 //            pedidoService.finalizar(id, dto).let { produtoAtualizado ->
@@ -67,6 +50,7 @@ class PedidoController(
 //            }
 //
 //    @PostMapping(value = ["/{id}/cancelar"])
+    // TODO VOLTA ESTOQUE
 //    fun cancelar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
 //            pedidoService.cancelar(id, dto).let { produtoAtualizado ->
 //                ResponseEntity.ok().body(produtoAtualizado)

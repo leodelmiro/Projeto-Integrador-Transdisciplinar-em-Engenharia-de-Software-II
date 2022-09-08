@@ -16,6 +16,7 @@ class ProdutoResponseDTO(
         val fotos: List<String>
 ) {
     constructor(entidade: Produto) : this(
+            id = entidade.id,
             nome = entidade.nome,
             quantidade = entidade.quantidade,
             preco = entidade.preco,

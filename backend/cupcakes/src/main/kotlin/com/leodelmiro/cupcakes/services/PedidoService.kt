@@ -1,16 +1,20 @@
 package com.leodelmiro.cupcakes.services
 
-import com.leodelmiro.cupcakes.dto.*
+import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO
 import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO.Companion.toEntidade
+import com.leodelmiro.cupcakes.dto.PedidoResponseDTO
 import com.leodelmiro.cupcakes.repositories.PedidoRepository
-import com.leodelmiro.cupcakes.repositories.UsuarioRepository
+import com.leodelmiro.cupcakes.repositories.ProdutoPedidoRepository
 import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@Service
 class PedidoService(
         @Autowired val pedidoRepository: PedidoRepository,
-        @Autowired val usuarioRepository: UsuarioRepository,
+        @Autowired val produtoPedidoRepository: ProdutoPedidoRepository,
+        @Autowired val usuarioService: UsuarioService,
         @Autowired val produtoService: ProdutoService
 ) {
 
@@ -18,19 +22,19 @@ class PedidoService(
     fun encontrarPorId(id: Long): PedidoResponseDTO =
             pedidoRepository.findById(id)
                     .orElseThrow { RecursoNotFoundException("Id não encontrado de id: $id") }
-                    .let { pedido -> PedidoResponseDTO(pedido) }
+                    .let { pedido -> PedidoResponseDTO(pedido, produtoService) }
+
+    @Transactional(readOnly = true)
+    fun encontrarTodosPorUsuario(id: Long): List<PedidoResponseDTO> =
+            pedidoRepository.findAllByUsuarioId(id).map { PedidoResponseDTO(it, produtoService) }
 
     @Transactional
     fun inserir(dto: PedidoCriacaoDTO): PedidoResponseDTO =
-            dto.toEntidade(usuarioRepository, produtoService).apply {
+            dto.toEntidade(usuarioService, produtoService).apply {
                 pedidoRepository.save(this)
             }.let { entidade ->
-                PedidoResponseDTO(entidade)
+                PedidoResponseDTO(entidade, produtoService)
             }
-
-//    fun encontrarPedidoDoCarrinho(id: Long): CarrinhoDeComprasDTO {
-//
-//    }
 
 //
 //    @Transactional

@@ -21,11 +21,8 @@ class Pedido(
         @field:ManyToOne
         @field:JoinColumn(name = "usuario_id")
         val usuario: Usuario,
-        @field:OneToMany
-        @field:JoinTable(name = "tb_pedido_produto",
-                joinColumns = [JoinColumn(name = "pedido_id")],
-                inverseJoinColumns = [JoinColumn(name = "produto_id")])
-        val produtos: List<Produto>,
+        @field:OneToMany(mappedBy = "pedido", cascade = [CascadeType.ALL])
+        val produtos: MutableList<ProdutoPedido>,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
         val horarioDeCompra: LocalDateTime = LocalDateTime.now(),

@@ -12,5 +12,5 @@ import java.math.BigDecimal
 
 @Repository
 interface PedidoRepository : JpaRepository<Pedido, Long> {
-
+    fun findAllByUsuarioId(id: Long): List<Pedido>
 }
