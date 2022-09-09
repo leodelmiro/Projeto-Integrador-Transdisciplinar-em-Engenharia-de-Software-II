@@ -29,6 +29,9 @@ class PedidoController(
             }
 
     @PostMapping
+    // TODO VALIDAÇÃO DE QUANTIDADE DO PRODUTO ANTES DE ADICIONAR
+    // TODO BAIXA ESTOQUE DE QUANTIDADE
+    // TODO FAZER EXCEPTION HANDLER
     fun criar(@Valid @RequestBody dto: PedidoCriacaoDTO): ResponseEntity<PedidoResponseDTO>? =
             pedidoService.inserir(dto).let { novoPedido ->
                 val uri = ServletUriComponentsBuilder
@@ -39,20 +42,16 @@ class PedidoController(
                 ResponseEntity.created(uri).body(novoPedido)
             }
 
-//    @PostMapping(value = ["/{id}/pagar"])
-    // TODO VALIDAÇÃO DE QUANTIDADE DO PRODUTO ANTES DE ADICIONAR
-    // TODO BAIXA ESTOQUE DE QUANTIDADE
-    // TODO METODO DE PAGAMENTO
-//    fun finalizar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
-//            : ResponseEntity<PedidoResponseDTO> =
-//            pedidoService.finalizar(id, dto).let { produtoAtualizado ->
-//                ResponseEntity.ok().body(produtoAtualizado)
-//            }
-//
-//    @PostMapping(value = ["/{id}/cancelar"])
+    @PostMapping(value = ["/{id}/pagar/{metodoPagamento}"])
+    fun finalizar(@PathVariable id: Long, @PathVariable metodoPagamento: String)
+            : ResponseEntity<PedidoResponseDTO> =
+            pedidoService.finalizar(id, metodoPagamento).let {
+                ResponseEntity.ok().body(it)
+            }
+
+    @PostMapping(value = ["/{id}/cancelar"])
     // TODO VOLTA ESTOQUE
-//    fun cancelar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
-//            pedidoService.cancelar(id, dto).let { produtoAtualizado ->
-//                ResponseEntity.ok().body(produtoAtualizado)
-//            }
+    fun cancelar(@PathVariable id: Long) = pedidoService.cancelar(id).let { produtoAtualizado ->
+        ResponseEntity.ok().body(produtoAtualizado)
+    }
 }

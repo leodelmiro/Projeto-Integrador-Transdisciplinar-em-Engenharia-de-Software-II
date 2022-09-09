@@ -3,17 +3,19 @@ package com.leodelmiro.cupcakes.services
 import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO
 import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.PedidoResponseDTO
+import com.leodelmiro.cupcakes.model.MetodoPagamento
+import com.leodelmiro.cupcakes.model.Status
 import com.leodelmiro.cupcakes.repositories.PedidoRepository
-import com.leodelmiro.cupcakes.repositories.ProdutoPedidoRepository
 import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import javax.persistence.EntityNotFoundException
 
 @Service
 class PedidoService(
         @Autowired val pedidoRepository: PedidoRepository,
-        @Autowired val produtoPedidoRepository: ProdutoPedidoRepository,
+        @Autowired val pagamentoService: PagamentoService,
         @Autowired val usuarioService: UsuarioService,
         @Autowired val produtoService: ProdutoService
 ) {
@@ -36,40 +38,34 @@ class PedidoService(
                 PedidoResponseDTO(entidade, produtoService)
             }
 
-//
-//    @Transactional
-//    fun atualizar(id: Long, dto: ProdutoAtualizacaoDTO): ProdutoResponseDTO? =
-//            try {
-//                produtoRepository.getReferenceById(id).apply {
-//                    updateCamposNaoNulos(dto)
-//                    produtoRepository.save(this)
-//                }.let { entidade ->
-//                    ProdutoResponseDTO(entidade)
-//                }
-//            } catch (e: EntityNotFoundException) {
-//                throw RecursoNotFoundException("Id não encontrado de id: $id")
-//            }
-//
-//    private fun Produto.updateCamposNaoNulos(dto: ProdutoAtualizacaoDTO) {
-//        dto.nome?.let { this.nome = it }
-//        dto.quantidade?.let { this.quantidade = it }
-//        dto.preco?.let { this.preco = it }
-//        dto.descricao?.let { this.descricao = it }
-//        dto.sabores?.let {
-//            this.sabores = dto.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toSet()
-//        }
-//        dto.fotos?.map { foto -> this.addFoto(Foto(url = foto.url, produto = this)) }
-//    }
-//
-//
-//    @Transactional
-//    fun deletar(id: Long) =
-//            try {
-//                produtoRepository.deleteById(id)
-//            } catch (e: EmptyResultDataAccessException) {
-//                throw RecursoNotFoundException("Id não encontrado de id: $id")
-//            } catch (e: DataIntegrityViolationException) {
-//                throw DatabaseException("Violação de integridade do banco")
-//            }
+    @Transactional
+    fun finalizar(id: Long, metodoPagamento: String): PedidoResponseDTO? =
+            try {
+                val metodoPagamentoEnum = MetodoPagamento.valueOf(metodoPagamento.uppercase())
+                pagamentoService.pagar(metodoPagamentoEnum)
+                pedidoRepository.getReferenceById(id).apply {
+                    this.status = Status.PAGO
+                    pedidoRepository.save(this)
+                }.let { entidade ->
+                    PedidoResponseDTO(entidade, produtoService)
+                }
+            } catch (e: EntityNotFoundException) {
+                throw RecursoNotFoundException("Id não encontrado de id: $id")
+            } catch (e: NoSuchElementException) {
+                throw IllegalArgumentException("Metodo de pagamento inexistente: $metodoPagamento")
+            }
+
+    @Transactional
+    fun cancelar(id: Long): PedidoResponseDTO? =
+            try {
+                pedidoRepository.getReferenceById(id).apply {
+                    this.status = Status.CANCELADO
+                    pedidoRepository.save(this)
+                }.let { entidade ->
+                    PedidoResponseDTO(entidade, produtoService)
+                }
+            } catch (e: EntityNotFoundException) {
+                throw RecursoNotFoundException("Id não encontrado de id: $id")
+            }
 }
 

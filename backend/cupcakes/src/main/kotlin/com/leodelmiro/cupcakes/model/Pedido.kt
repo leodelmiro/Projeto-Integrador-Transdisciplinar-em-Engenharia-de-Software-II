@@ -13,7 +13,7 @@ class Pedido(
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
         @field:Enumerated(EnumType.STRING)
-        val status: Status,
+        var status: Status,
         @field:Column(nullable = false, updatable = false)
         val valor: BigDecimal,
         @field:Column(nullable = false, updatable = false)

@@ -26,7 +26,7 @@ class PedidoCriacaoDTO(
     companion object {
         fun PedidoCriacaoDTO.toEntidade(usuarioService: UsuarioService, produtoService: ProdutoService) =
                 Pedido(
-                        status = Status.valueOf(status),
+                        status = Status.valueOf(status.uppercase()),
                         valor = valorTotalPedido(produtoService),
                         code = UUID.randomUUID().toString(), //Código de Barra Fake
                         usuario = usuarioService.encontrarEntidadePorId(this.usuarioId),
