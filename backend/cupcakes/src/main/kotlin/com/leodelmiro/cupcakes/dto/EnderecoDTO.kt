@@ -3,7 +3,7 @@ package com.leodelmiro.cupcakes.dto
 import com.leodelmiro.cupcakes.model.Endereco
 import javax.validation.constraints.NotBlank
 
-class EnderecoDTO(
+data class EnderecoDTO(
         @field:NotBlank(message = "Logradouro não pode ser em branco.")
         val logradouro: String,
         @field:NotBlank(message = "Bairro não pode ser em branco.")

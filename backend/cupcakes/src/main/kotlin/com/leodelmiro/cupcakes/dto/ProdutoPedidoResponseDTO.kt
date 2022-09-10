@@ -4,7 +4,7 @@ import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.model.Sabor
 import java.math.BigDecimal
 
-class ProdutoPedidoResponseDTO(
+data class ProdutoPedidoResponseDTO(
         val nome: String,
         val quantidade: Int,
         val preco: BigDecimal,

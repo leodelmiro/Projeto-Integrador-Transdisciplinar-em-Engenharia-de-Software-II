@@ -30,10 +30,8 @@ class PedidoController(
 
     @PostMapping
     // TODO VALIDAÇÃO DE QUANTIDADE DO PRODUTO ANTES DE ADICIONAR
-    // TODO BAIXA ESTOQUE DE QUANTIDADE
-    // TODO FAZER EXCEPTION HANDLER
     fun criar(@Valid @RequestBody dto: PedidoCriacaoDTO): ResponseEntity<PedidoResponseDTO>? =
-            pedidoService.inserir(dto).let { novoPedido ->
+            pedidoService.criar(dto).let { novoPedido ->
                 val uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
@@ -50,7 +48,6 @@ class PedidoController(
             }
 
     @PostMapping(value = ["/{id}/cancelar"])
-    // TODO VOLTA ESTOQUE
     fun cancelar(@PathVariable id: Long) = pedidoService.cancelar(id).let { produtoAtualizado ->
         ResponseEntity.ok().body(produtoAtualizado)
     }

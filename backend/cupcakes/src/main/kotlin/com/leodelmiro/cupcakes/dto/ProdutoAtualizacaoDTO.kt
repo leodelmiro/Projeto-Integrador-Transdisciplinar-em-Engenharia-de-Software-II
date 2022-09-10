@@ -2,7 +2,7 @@ package com.leodelmiro.cupcakes.dto
 
 import java.math.BigDecimal
 
-class ProdutoAtualizacaoDTO(
+data class ProdutoAtualizacaoDTO(
         val nome: String? = null,
         val quantidade: Int? = null,
         val preco: BigDecimal? = null,

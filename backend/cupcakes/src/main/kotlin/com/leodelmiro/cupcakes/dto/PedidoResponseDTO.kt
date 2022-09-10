@@ -7,7 +7,7 @@ import com.leodelmiro.cupcakes.services.ProdutoService
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-class PedidoResponseDTO(
+data class PedidoResponseDTO(
         val id: Long? = null,
         val status: Status,
         val valor: BigDecimal,

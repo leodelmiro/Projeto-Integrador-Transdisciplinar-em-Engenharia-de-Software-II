@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 // TODO VALIDAÇÃO PARA EVITAR CPF E EMAIL IGUAIS
-class UsuarioInclusaoDTO(
+data class UsuarioInclusaoDTO(
         @field:NotBlank(message = "Nome não pode ser em branco.")
         val nome: String,
         @field:NotBlank(message = "CPF não pode ser em branco.")
@@ -31,6 +31,7 @@ class UsuarioInclusaoDTO(
         @field:NotNull(message = "Endereço não pode ser nulo.")
         @field:Valid
         val endereco: EnderecoDTO,
+        // TODO VALIDAR ID ROLE
         @field:NotNull(message = "Role não pode ser nulo.")
         @field:Size(min = 1, message = "O usuário deve ter no mínimo 1 role")
         val roles: List<Long>

@@ -13,12 +13,13 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
-class PedidoCriacaoDTO(
+data class PedidoCriacaoDTO(
         // TODO CRIAR VALIDAÇÃO DE STATUS VALIDO
         @field:NotBlank(message = "Status não pode ser branco ou nulo")
         val status: String,
         @field:JsonProperty("usuario_id")
         @field:NotNull(message = "Usuário não pode ser nulo")
+        // TODO VALIDAR USUARIO EXISTENTE
         @field:Positive(message = "Usuário deve ter Id válido")
         val usuarioId: Long,
         val produtos: List<@Valid ProdutoEmPedidoDTO> = mutableListOf(),
@@ -49,5 +50,6 @@ class PedidoCriacaoDTO(
 
         private fun valorDoProdutoNoPedido(produtoService: ProdutoService, produto: ProdutoEmPedidoDTO) =
                 produtoService.encontrarPrecoProdutoPorId(produto.id) * produto.quantidade.toBigDecimal()
+
     }
 }

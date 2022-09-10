@@ -5,7 +5,7 @@ import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.model.Sabor
 import java.math.BigDecimal
 
-class ProdutoResponseDTO(
+data class ProdutoResponseDTO(
         @field:JsonIgnore
         val id: Long? = null,
         val nome: String,

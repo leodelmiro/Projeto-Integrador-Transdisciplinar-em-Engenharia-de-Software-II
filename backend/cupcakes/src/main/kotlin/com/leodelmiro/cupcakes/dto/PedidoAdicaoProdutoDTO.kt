@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
-class PedidoAdicaoProdutoDTO(
+data class PedidoAdicaoProdutoDTO(
         @field:JsonProperty("produto_id")
         @field:NotNull(message = "Produto não pode ser nulo")
         @field:Positive(message = "Produto deve ter Id válido")

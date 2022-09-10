@@ -6,7 +6,7 @@ import java.math.BigDecimal
 import javax.validation.Valid
 import javax.validation.constraints.*
 
-class ProdutoInclusaoDTO(
+data class ProdutoInclusaoDTO(
         @field:NotBlank(message = "Nome não pode ser em branco.")
         val nome: String,
         @field:Min(value = 1, message = "Quantidade deve ter ser no mínimo 1")
@@ -15,6 +15,7 @@ class ProdutoInclusaoDTO(
         val preco: BigDecimal,
         @field:NotBlank(message = "Descrição não pode ser em branco")
         val descricao: String,
+        // TODO VALIDAR ID SABORES
         @field:NotNull(message = "Sabor não pode ser nulo.")
         @field:Size(min = 1, message = "O produto deve ter no mínimo 1 sabor")
         val sabores: List<Long>,

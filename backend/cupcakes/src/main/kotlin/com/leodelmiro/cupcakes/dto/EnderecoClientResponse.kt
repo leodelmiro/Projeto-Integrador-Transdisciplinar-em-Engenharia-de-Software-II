@@ -1,6 +1,6 @@
 package com.leodelmiro.cupcakes.dto
 
-class EnderecoClientResponse(
+data class EnderecoClientResponse(
         val cep: String,
         val logradouro: String,
         val bairro: String,

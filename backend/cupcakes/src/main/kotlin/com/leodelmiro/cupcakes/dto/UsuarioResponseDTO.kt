@@ -5,7 +5,7 @@ import com.leodelmiro.cupcakes.model.Role
 import com.leodelmiro.cupcakes.model.Telefone
 import com.leodelmiro.cupcakes.model.Usuario
 
-class UsuarioResponseDTO(
+data class UsuarioResponseDTO(
         val id: Long? = null,
         val nome: String,
         val cpf: String,

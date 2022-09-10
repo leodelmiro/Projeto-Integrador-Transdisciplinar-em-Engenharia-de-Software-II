@@ -2,7 +2,7 @@ package com.leodelmiro.cupcakes.dto
 
 import com.leodelmiro.cupcakes.model.Sabor
 
-class SaborResponseDTO(
+data class SaborResponseDTO(
         var id: Long?,
         val nome: String
 ) {

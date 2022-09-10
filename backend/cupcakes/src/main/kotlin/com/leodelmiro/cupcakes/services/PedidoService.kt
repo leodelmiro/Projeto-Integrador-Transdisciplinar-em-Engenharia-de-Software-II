@@ -3,7 +3,10 @@ package com.leodelmiro.cupcakes.services
 import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO
 import com.leodelmiro.cupcakes.dto.PedidoCriacaoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.PedidoResponseDTO
+import com.leodelmiro.cupcakes.dto.ProdutoAtualizacaoDTO
 import com.leodelmiro.cupcakes.model.MetodoPagamento
+import com.leodelmiro.cupcakes.model.Pedido
+import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.model.Status
 import com.leodelmiro.cupcakes.repositories.PedidoRepository
 import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
@@ -31,8 +34,9 @@ class PedidoService(
             pedidoRepository.findAllByUsuarioId(id).map { PedidoResponseDTO(it, produtoService) }
 
     @Transactional
-    fun inserir(dto: PedidoCriacaoDTO): PedidoResponseDTO =
+    fun criar(dto: PedidoCriacaoDTO): PedidoResponseDTO =
             dto.toEntidade(usuarioService, produtoService).apply {
+                baixaProdutoEstoque(this, produtoService)
                 pedidoRepository.save(this)
             }.let { entidade ->
                 PedidoResponseDTO(entidade, produtoService)
@@ -60,6 +64,7 @@ class PedidoService(
             try {
                 pedidoRepository.getReferenceById(id).apply {
                     this.status = Status.CANCELADO
+                    devolverEstoque(this, produtoService)
                     pedidoRepository.save(this)
                 }.let { entidade ->
                     PedidoResponseDTO(entidade, produtoService)
@@ -67,5 +72,33 @@ class PedidoService(
             } catch (e: EntityNotFoundException) {
                 throw RecursoNotFoundException("Id não encontrado de id: $id")
             }
+
+    private fun baixaProdutoEstoque(pedido: Pedido, produtoService: ProdutoService) =
+            pedido.produtos.forEach { produtoEmPedido ->
+                produtoService.atualizar(
+                        produtoEmPedido.produto.id!!,
+                        ProdutoAtualizacaoDTO(
+                                quantidade = with(produtoService.encontrarEntidadePorId(produtoEmPedido.produto.id!!)) {
+                                    return@with this.quantidade - encontraProdutoPorPedido(pedido).quantidade
+                                }
+                        )
+                )
+            }
+
+
+    private fun devolverEstoque(pedido: Pedido, produtoService: ProdutoService) =
+            pedido.produtos.forEach { produtoEmPedido ->
+                produtoService.atualizar(
+                        produtoEmPedido.produto.id!!,
+                        ProdutoAtualizacaoDTO(
+                                quantidade = with(produtoService.encontrarEntidadePorId(produtoEmPedido.produto.id!!)) {
+                                    return@with this.quantidade + encontraProdutoPorPedido(pedido).quantidade
+                                }
+                        )
+                )
+            }
+
+    private fun Produto.encontraProdutoPorPedido(pedido: Pedido) =
+            pedido.produtos.first { produtoPedido -> produtoPedido.produto.id == this.id }
 }
 
