@@ -13,6 +13,8 @@ import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -25,17 +27,16 @@ class ProdutoService(
         @Autowired val saborRepository: SaborRepository
 ) {
 
-    // TODO FINDALL PAGINADO
-//    @Transactional(readOnly = true)
-//    fun encontrarTodosPaginado(saborId: Long? = null,
-//                     precoMin: BigDecimal? = null,
-//                     precoMax: BigDecimal? = null,
-//                     pagina: PageRequest
-//    ): Page<ProdutoResponseDTO?> {
-//        val sabor = saborId?.let { saborRepository.getReferenceById(saborId) }
-//        // TODO CHAMADA NO BANCO PARA FILTRO
-//        return produtoRepository.find(sabor, precoMin, precoMax, pagina).map { x -> ProdutoResponseDTO(x) }
-//    }
+    @Transactional(readOnly = true)
+    fun encontrarTodosPaginado(
+            saborId: Long? = null,
+            precoMin: BigDecimal? = null,
+            precoMax: BigDecimal? = null,
+            pagina: PageRequest
+    ): Page<ProdutoResponseDTO> {
+        val sabor = saborId?.let { sabor -> saborRepository.getReferenceById(sabor) }
+        return produtoRepository.find(sabor, precoMin, precoMax, pagina).map { x -> ProdutoResponseDTO(x) }
+    }
 
     @Transactional(readOnly = true)
     fun encontrarPorId(id: Long): ProdutoResponseDTO =

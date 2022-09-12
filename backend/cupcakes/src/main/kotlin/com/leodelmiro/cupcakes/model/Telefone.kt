@@ -4,7 +4,7 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class Telefone(
+data class Telefone(
         @field:Column(nullable = false)
         val ddd: String,
         @field:Column(nullable = false)

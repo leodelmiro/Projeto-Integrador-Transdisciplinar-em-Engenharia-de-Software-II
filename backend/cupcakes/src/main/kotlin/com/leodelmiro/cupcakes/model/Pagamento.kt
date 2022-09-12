@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "tb_pagamento")
-class Pagamento(
+data class Pagamento(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,

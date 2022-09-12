@@ -4,7 +4,7 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class Endereco(
+data class Endereco(
         @field:Column(nullable = false)
         val logradouro: String,
         @field:Column(nullable = false)

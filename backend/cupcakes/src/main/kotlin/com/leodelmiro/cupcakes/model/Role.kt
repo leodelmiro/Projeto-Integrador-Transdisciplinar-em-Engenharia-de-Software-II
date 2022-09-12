@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "tb_role")
-class Role(
+data class Role(
         @field:Id
         @field:GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
