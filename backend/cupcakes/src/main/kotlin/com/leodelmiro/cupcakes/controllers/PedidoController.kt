@@ -29,7 +29,6 @@ class PedidoController(
             }
 
     @PostMapping
-    // TODO VALIDAÇÃO DE QUANTIDADE DO PRODUTO ANTES DE ADICIONAR
     fun criar(@Valid @RequestBody dto: PedidoCriacaoDTO): ResponseEntity<PedidoResponseDTO>? =
             pedidoService.criar(dto).let { novoPedido ->
                 val uri = ServletUriComponentsBuilder

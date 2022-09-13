@@ -49,4 +49,7 @@ class SaborService(@Autowired val saborRepository: SaborRepository) {
     } catch (e: DataIntegrityViolationException) {
         throw DatabaseException("Violação de integridade do banco")
     }
+
+    @Transactional(readOnly = true)
+    fun isSaborExistente(id: Long): Boolean = saborRepository.findById(id).isPresent
 }

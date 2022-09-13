@@ -1,5 +1,8 @@
 package com.leodelmiro.cupcakes.dto
 
+import com.leodelmiro.cupcakes.controllers.validacoes.CpfUnico
+import com.leodelmiro.cupcakes.controllers.validacoes.EmailUnico
+import com.leodelmiro.cupcakes.controllers.validacoes.RolesValidas
 import com.leodelmiro.cupcakes.dto.EnderecoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.TelefoneDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.model.Usuario
@@ -12,15 +15,16 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
-// TODO VALIDAÇÃO PARA EVITAR CPF E EMAIL IGUAIS
 data class UsuarioInclusaoDTO(
         @field:NotBlank(message = "Nome não pode ser em branco.")
         val nome: String,
         @field:NotBlank(message = "CPF não pode ser em branco.")
         @field:CPF(message = "CPF deve ser um cpf válido")
+        @field:CpfUnico
         val cpf: String,
         @field:NotBlank(message = "Email não pode ser em branco.")
         @field:Email(message = "Email deve ser um email válido")
+        @field:EmailUnico
         val email: String,
         @field:NotBlank(message = "Senha não pode ser em branco.")
         @field:Min(value = 5, message = "Senha deve ter no mínimo 5 caracteres")
@@ -31,9 +35,9 @@ data class UsuarioInclusaoDTO(
         @field:NotNull(message = "Endereço não pode ser nulo.")
         @field:Valid
         val endereco: EnderecoDTO,
-        // TODO VALIDAR ID ROLE
         @field:NotNull(message = "Role não pode ser nulo.")
         @field:Size(min = 1, message = "O usuário deve ter no mínimo 1 role")
+        @field:RolesValidas
         val roles: List<Long>
 ) {
     companion object {

@@ -1,6 +1,7 @@
 package com.leodelmiro.cupcakes.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.leodelmiro.cupcakes.controllers.validacoes.UsuarioValido
 import com.leodelmiro.cupcakes.model.Pedido
 import com.leodelmiro.cupcakes.model.ProdutoPedido
 import com.leodelmiro.cupcakes.model.Status
@@ -9,25 +10,23 @@ import com.leodelmiro.cupcakes.services.UsuarioService
 import java.math.BigDecimal
 import java.util.*
 import javax.validation.Valid
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 
 data class PedidoCriacaoDTO(
-        // TODO CRIAR VALIDAÇÃO DE STATUS VALIDO
-        @field:NotBlank(message = "Status não pode ser branco ou nulo")
-        val status: String,
         @field:JsonProperty("usuario_id")
         @field:NotNull(message = "Usuário não pode ser nulo")
-        // TODO VALIDAR USUARIO EXISTENTE
         @field:Positive(message = "Usuário deve ter Id válido")
+        @field:UsuarioValido
         val usuarioId: Long,
-        val produtos: List<@Valid ProdutoEmPedidoDTO> = mutableListOf(),
+        @field:NotNull
+        @field:Valid
+        val produtos: List<ProdutoEmPedidoDTO> = mutableListOf(),
 ) {
     companion object {
         fun PedidoCriacaoDTO.toEntidade(usuarioService: UsuarioService, produtoService: ProdutoService) =
                 Pedido(
-                        status = Status.valueOf(status.uppercase()),
+                        status = Status.AGUARDANDO_PAGAMENTO,
                         valor = valorTotalPedido(produtoService),
                         code = UUID.randomUUID().toString(), //Código de Barra Fake
                         usuario = usuarioService.encontrarEntidadePorId(this.usuarioId),

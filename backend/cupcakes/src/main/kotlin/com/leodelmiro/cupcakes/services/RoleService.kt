@@ -11,4 +11,7 @@ class RoleService(@Autowired val roleRepository: RoleRepository) {
 
     @Transactional(readOnly = true)
     fun encontrarTodos(): List<RoleResponseDTO> = roleRepository.findAll().map { role -> RoleResponseDTO(role) }
+
+    @Transactional(readOnly = true)
+    fun isRoleExistente(id: Long): Boolean = roleRepository.findById(id).isPresent
 }

@@ -69,4 +69,13 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
     } catch (e: DataIntegrityViolationException) {
         throw DatabaseException("Violação de integridade do banco")
     }
+
+    @Transactional(readOnly = true)
+    fun isEmailJaExistente(email: String): Boolean = userRepository.findByEmail(email).isPresent
+
+    @Transactional(readOnly = true)
+    fun isCpfJaExistente(cpf: String): Boolean = userRepository.findByCpf(cpf).isPresent
+
+    @Transactional(readOnly = true)
+    fun isUsuarioExistente(id: Long): Boolean = userRepository.findById(id).isPresent
 }

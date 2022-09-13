@@ -1,5 +1,6 @@
 package com.leodelmiro.cupcakes.dto
 
+import com.leodelmiro.cupcakes.controllers.validacoes.SaboresValidos
 import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.repositories.SaborRepository
 import java.math.BigDecimal
@@ -15,9 +16,9 @@ data class ProdutoInclusaoDTO(
         val preco: BigDecimal,
         @field:NotBlank(message = "Descrição não pode ser em branco")
         val descricao: String,
-        // TODO VALIDAR ID SABORES
         @field:NotNull(message = "Sabor não pode ser nulo.")
         @field:Size(min = 1, message = "O produto deve ter no mínimo 1 sabor")
+        @field:SaboresValidos
         val sabores: List<Long>,
         @field:Valid
         @field:Size(min = 1, message = "Insira pelo menos uma foto")

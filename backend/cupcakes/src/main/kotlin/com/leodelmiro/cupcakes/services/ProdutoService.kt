@@ -98,4 +98,7 @@ class ProdutoService(
             } catch (e: DataIntegrityViolationException) {
                 throw DatabaseException("Violação de integridade do banco")
             }
+
+    @Transactional(readOnly = true)
+    fun isProdutoExistente(id: Long): Boolean = produtoRepository.findById(id).isPresent
 }
