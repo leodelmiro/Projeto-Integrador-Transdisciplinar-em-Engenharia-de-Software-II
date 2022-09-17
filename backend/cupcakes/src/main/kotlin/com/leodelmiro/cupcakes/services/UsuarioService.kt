@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityNotFoundException
 
 @Service
-class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowired val roleRepository: RoleRepository) {
+class UsuarioService(@Autowired val userRepository: UsuarioRepository,
+                     @Autowired val roleRepository: RoleRepository,
+                     @Autowired val encryptService: EncryptService) {
 
     @Transactional(readOnly = true)
     fun encontrarPorId(id: Long): UsuarioResponseDTO =
@@ -34,8 +36,7 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository, @Autowire
 
     @Transactional
     fun inserir(dto: UsuarioInclusaoDTO): UsuarioResponseDTO =
-            dto.toEntidade(roleRepository).apply {
-                // TODO ENCRYPT DA SENHA ANTES DE SALVAR
+            dto.toEntidade(roleRepository, encryptService).apply {
                 userRepository.save(this)
             }.let { entidade ->
                 UsuarioResponseDTO(entidade)
