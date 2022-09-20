@@ -4,6 +4,8 @@ import com.leodelmiro.cupcakes.dto.ProdutoAtualizacaoDTO
 import com.leodelmiro.cupcakes.dto.ProdutoInclusaoDTO
 import com.leodelmiro.cupcakes.dto.ProdutoResponseDTO
 import com.leodelmiro.cupcakes.services.ProdutoService
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -17,11 +19,13 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping(value = ["/produtos"])
+@Tag(name = "Produto")
 class ProdutoController(
         @Autowired val produtoService: ProdutoService
 ) {
 
     @GetMapping
+    @Operation(summary = "Lista todos os produtos paginado e com filtro")
     fun encontrarTodos(
             @RequestParam(value = "saborId", defaultValue = "0") saborId: Long,
             @RequestParam(value = "min", defaultValue = "") precoMin: String,
@@ -46,6 +50,7 @@ class ProdutoController(
             }
 
     @GetMapping(value = ["/{id}"])
+    @Operation(summary = "Encontra produto por ID")
     fun encontrarPorId(@PathVariable id: Long): ResponseEntity<ProdutoResponseDTO>? =
             produtoService.encontrarPorId(id).let {
                 ResponseEntity.ok().body(it)
@@ -53,6 +58,7 @@ class ProdutoController(
 
     // TODO DEIXAR APENAS ADMIN (WRITE)
     @PostMapping
+    @Operation(summary = "Adicionar novo produto")
     fun inserir(@Valid @RequestBody dto: ProdutoInclusaoDTO): ResponseEntity<ProdutoResponseDTO>? =
             produtoService.inserir(dto).let { novoProduto ->
                 val uri = ServletUriComponentsBuilder
@@ -65,6 +71,7 @@ class ProdutoController(
 
     // TODO DEIXAR APENAS ADMIN (WRITE)
     @PutMapping(value = ["/{id}"])
+    @Operation(summary = "Atualiza produto por ID")
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
             : ResponseEntity<ProdutoResponseDTO>? =
             produtoService.atualizar(id, dto).let { produtoAtualizado ->
@@ -73,6 +80,7 @@ class ProdutoController(
 
     // TODO DEIXAR APENAS ADMIN
     @DeleteMapping(value = ["/{id}"])
+    @Operation(summary = "Deleta produto por ID")
     fun deletar(@PathVariable id: Long): ResponseEntity<ProdutoResponseDTO>? =
             produtoService.deletar(id).let {
                 ResponseEntity.noContent().build()

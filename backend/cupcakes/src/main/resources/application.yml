@@ -15,3 +15,7 @@ spring:
 feign:
   okhttp:
     enabled: true
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
