@@ -11,9 +11,14 @@ import com.leodelmiro.cupcakes.repositories.RoleRepository
 import com.leodelmiro.cupcakes.repositories.UsuarioRepository
 import com.leodelmiro.cupcakes.services.exceptions.DatabaseException
 import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityNotFoundException
@@ -21,7 +26,8 @@ import javax.persistence.EntityNotFoundException
 @Service
 class UsuarioService(@Autowired val userRepository: UsuarioRepository,
                      @Autowired val roleRepository: RoleRepository,
-                     @Autowired val encryptService: EncryptService) {
+                     @Autowired val passwordEncoder: BCryptPasswordEncoder
+                     ) : UserDetailsService {
 
     @Transactional(readOnly = true)
     fun encontrarPorId(id: Long): UsuarioResponseDTO =
@@ -36,7 +42,7 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository,
 
     @Transactional
     fun inserir(dto: UsuarioInclusaoDTO): UsuarioResponseDTO =
-            dto.toEntidade(roleRepository, encryptService).apply {
+            dto.toEntidade(roleRepository, passwordEncoder).apply {
                 userRepository.save(this)
             }.let { entidade ->
                 UsuarioResponseDTO(entidade)
@@ -79,4 +85,16 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository,
 
     @Transactional(readOnly = true)
     fun isUsuarioExistente(id: Long): Boolean = userRepository.findById(id).isPresent
+
+    override fun loadUserByUsername(username: String): UserDetails =
+            userRepository.findByEmail(username)
+                    .orElseThrow {
+                        UsernameNotFoundException("Usuário não encontrado")
+                                .also { LOGGER.error("Usuário não encontrado $username") }
+                    }.also { LOGGER.info("Usuário encontrado $username") }
+
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(this::class.java)
+    }
+
 }

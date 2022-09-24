@@ -7,8 +7,8 @@ import com.leodelmiro.cupcakes.dto.EnderecoDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.dto.TelefoneDTO.Companion.toEntidade
 import com.leodelmiro.cupcakes.model.Usuario
 import com.leodelmiro.cupcakes.repositories.RoleRepository
-import com.leodelmiro.cupcakes.services.EncryptService
 import org.hibernate.validator.constraints.br.CPF
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.validation.Valid
 import javax.validation.constraints.*
 
@@ -38,18 +38,16 @@ data class UsuarioInclusaoDTO(
         val roles: List<Long>
 ) {
     companion object {
-        fun UsuarioInclusaoDTO.toEntidade(roleRepository: RoleRepository, encryptService: EncryptService): Usuario =
-                with(encryptService.createSalt()) {
-                    Usuario(
-                            nome = this@toEntidade.nome,
-                            cpf = this@toEntidade.cpf,
-                            email = this@toEntidade.email,
-                            passwordSalt = this,
-                            passwordHash = encryptService.encode(this@toEntidade.password, this),
-                            telefone = this@toEntidade.telefone.toEntidade(),
-                            endereco = this@toEntidade.endereco.toEntidade(),
-                            roles = roles.map { roleId -> roleRepository.getReferenceById(roleId) }.toSet()
-                    )
-                }
+        fun UsuarioInclusaoDTO.toEntidade(roleRepository: RoleRepository, encryptService: BCryptPasswordEncoder): Usuario =
+                Usuario(
+                        nome = this@toEntidade.nome,
+                        cpf = this@toEntidade.cpf,
+                        email = this@toEntidade.email,
+                        password = encryptService.encode(this@toEntidade.password),
+                        telefone = this@toEntidade.telefone.toEntidade(),
+                        endereco = this@toEntidade.endereco.toEntidade(),
+                        roles = roles.map { roleId -> roleRepository.getReferenceById(roleId) }.toSet()
+                )
+
     }
 }
