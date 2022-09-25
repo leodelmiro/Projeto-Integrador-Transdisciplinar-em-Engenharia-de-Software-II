@@ -36,6 +36,11 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository,
                     .let { usuario -> UsuarioResponseDTO(usuario) }
 
     @Transactional(readOnly = true)
+    fun encontrarPorEmail(email: String): Usuario =
+            userRepository.findByEmail(email)
+                    .orElseThrow { RecursoNotFoundException("Email $email não encontrado!") }
+
+    @Transactional(readOnly = true)
     fun encontrarEntidadePorId(id: Long): Usuario =
             userRepository.findById(id)
                     .orElseThrow { RecursoNotFoundException("Id não encontrado de usuário id: $id") }
