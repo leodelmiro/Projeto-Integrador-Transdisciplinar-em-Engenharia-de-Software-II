@@ -18,7 +18,6 @@ class RoleController(
         @Autowired val roleService: RoleService,
 ) {
 
-    // TODO DEIXAR APENAS ADMIN
     @GetMapping
     @Operation(summary = "Lista com todas as roles")
     fun encontrarTodos(): ResponseEntity<List<RoleResponseDTO>> =

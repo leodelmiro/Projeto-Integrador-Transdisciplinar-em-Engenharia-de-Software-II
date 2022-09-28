@@ -20,7 +20,8 @@ class PedidoService(
         @Autowired val pedidoRepository: PedidoRepository,
         @Autowired val pagamentoService: PagamentoService,
         @Autowired val usuarioService: UsuarioService,
-        @Autowired val produtoService: ProdutoService
+        @Autowired val produtoService: ProdutoService,
+        @Autowired val authService: AuthService
 ) {
 
     @Transactional(readOnly = true)
@@ -31,15 +32,19 @@ class PedidoService(
 
     @Transactional(readOnly = true)
     fun encontrarTodosPorUsuario(id: Long): List<PedidoResponseDTO> =
-            pedidoRepository.findAllByUsuarioId(id).map { PedidoResponseDTO(it, produtoService) }
+            authService.validataSeDeleOuAdmin(id).run {
+                pedidoRepository.findAllByUsuarioId(id).map { PedidoResponseDTO(it, produtoService) }
+            }
 
     @Transactional
     fun criar(dto: PedidoCriacaoDTO): PedidoResponseDTO =
-            dto.toEntidade(usuarioService, produtoService).apply {
-                baixaProdutoEstoque(this, produtoService)
-                pedidoRepository.save(this)
-            }.let { entidade ->
-                PedidoResponseDTO(entidade, produtoService)
+            authService.validataSeDeleOuAdmin(dto.usuarioId).run {
+                dto.toEntidade(usuarioService, produtoService).apply {
+                    baixaProdutoEstoque(this, produtoService)
+                    pedidoRepository.save(this)
+                }.let { entidade ->
+                    PedidoResponseDTO(entidade, produtoService)
+                }
             }
 
     @Transactional
@@ -48,6 +53,7 @@ class PedidoService(
                 val metodoPagamentoEnum = MetodoPagamento.valueOf(metodoPagamento.uppercase())
                 pagamentoService.pagar(metodoPagamentoEnum)
                 pedidoRepository.getReferenceById(id).apply {
+                    authService.validataSeDeleOuAdmin(this.usuario.id ?: 0)
                     this.status = Status.PAGO
                     pedidoRepository.save(this)
                 }.let { entidade ->
@@ -63,6 +69,7 @@ class PedidoService(
     fun cancelar(id: Long): PedidoResponseDTO? =
             try {
                 pedidoRepository.getReferenceById(id).apply {
+                    authService.validataSeDeleOuAdmin(this.usuario.id ?: 0)
                     this.status = Status.CANCELADO
                     devolverEstoque(this, produtoService)
                     pedidoRepository.save(this)

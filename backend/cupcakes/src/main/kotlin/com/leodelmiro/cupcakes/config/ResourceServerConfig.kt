@@ -29,6 +29,7 @@ class ResourceServerConfig(
                 .antMatchers(HttpMethod.POST, USUARIO_ENDPOINT).permitAll()
                 .antMatchers(HttpMethod.GET, *PUBLICO_OR_VENDEDOR).permitAll()
                 .antMatchers(HttpMethod.PUT, USUARIO_ENDPOINT).hasAnyRole("USUARIO", "VENDEDOR", "ADMIN")
+                .antMatchers(HttpMethod.GET, USUARIO_ENDPOINT).hasAnyRole("USUARIO", "VENDEDOR", "ADMIN")
                 .antMatchers(HttpMethod.GET, *USUARIO_OR_VENDEDOR).hasAnyRole("USUARIO", "VENDEDOR", "ADMIN")
                 .antMatchers(*PUBLICO_OR_VENDEDOR).hasAnyRole("VENDEDOR", "ADMIN")
                 .antMatchers(*ADMIN).hasAnyRole("ADMIN")

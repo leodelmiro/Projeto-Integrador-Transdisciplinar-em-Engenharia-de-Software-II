@@ -26,7 +26,6 @@ class SaborController(
                 ResponseEntity.ok().body(it)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PostMapping
     @Operation(summary = "Adicionar novo sabor")
     fun adicionar(@Valid @RequestBody dto: SaborRequestDTO): ResponseEntity<SaborResponseDTO> =
@@ -39,7 +38,6 @@ class SaborController(
                 ResponseEntity.created(uri).body(novoSabor)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PutMapping(value = ["/{id}"])
     @Operation(summary = "Atualiza sabor por ID")
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: SaborRequestDTO)
@@ -48,7 +46,6 @@ class SaborController(
                 ResponseEntity.ok().body(saborAtualizado)
             }
 
-    // TODO DEIXAR APENAS ADMIN
     @DeleteMapping(value = ["/{id}"])
     @Operation(summary = "Deleta sabor por ID")
     fun deletar(@PathVariable id: Long): ResponseEntity<SaborResponseDTO> =

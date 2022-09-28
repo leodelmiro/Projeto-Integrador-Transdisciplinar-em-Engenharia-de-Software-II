@@ -26,14 +26,17 @@ import javax.persistence.EntityNotFoundException
 @Service
 class UsuarioService(@Autowired val userRepository: UsuarioRepository,
                      @Autowired val roleRepository: RoleRepository,
-                     @Autowired val passwordEncoder: BCryptPasswordEncoder
-                     ) : UserDetailsService {
+                     @Autowired val passwordEncoder: BCryptPasswordEncoder,
+                     @Autowired val authService: AuthService
+) : UserDetailsService {
 
     @Transactional(readOnly = true)
     fun encontrarPorId(id: Long): UsuarioResponseDTO =
-            userRepository.findById(id)
-                    .orElseThrow { RecursoNotFoundException("Id não encontrado de usuário id: $id") }
-                    .let { usuario -> UsuarioResponseDTO(usuario) }
+            authService.validataSeDeleOuAdmin(id).run {
+                userRepository.findById(id)
+                        .orElseThrow { RecursoNotFoundException("Id não encontrado de usuário id: $id") }
+                        .let { usuario -> UsuarioResponseDTO(usuario) }
+            }
 
     @Transactional(readOnly = true)
     fun encontrarPorEmail(email: String): Usuario =
@@ -56,15 +59,17 @@ class UsuarioService(@Autowired val userRepository: UsuarioRepository,
 
     @Transactional
     fun atualizar(id: Long, dto: UsuarioAtualizacaoDTO): UsuarioResponseDTO =
-            try {
-                userRepository.getReferenceById(id).apply {
-                    updateCamposNaoNulos(dto)
-                    userRepository.save(this)
-                }.let { entidade ->
-                    UsuarioResponseDTO(entidade)
+            authService.validataSeDeleOuAdmin(id).run {
+                try {
+                    userRepository.getReferenceById(id).apply {
+                        updateCamposNaoNulos(dto)
+                        userRepository.save(this)
+                    }.let { entidade ->
+                        UsuarioResponseDTO(entidade)
+                    }
+                } catch (e: EntityNotFoundException) {
+                    throw RecursoNotFoundException("Id não encontrado de usuário id: $id")
                 }
-            } catch (e: EntityNotFoundException) {
-                throw RecursoNotFoundException("Id não encontrado de usuário id: $id")
             }
 
     private fun Usuario.updateCamposNaoNulos(dto: UsuarioAtualizacaoDTO) {

@@ -39,6 +39,8 @@ data class Usuario(
         val atualizadoEm: LocalDateTime? = null
 ) : UserDetails {
 
+    fun temRole(roleName: String): Boolean = roles.map { role -> role.autoridade }.contains(roleName)
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
             roles.map { role -> SimpleGrantedAuthority(role.autoridade) }.toMutableList()
 

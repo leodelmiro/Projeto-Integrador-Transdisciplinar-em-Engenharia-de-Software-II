@@ -26,7 +26,6 @@ class UsuarioController(
                 ResponseEntity.ok().body(it)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PostMapping
     @Operation(summary = "Adiciona novo usuário")
     fun adicionar(@Valid @RequestBody dto: UsuarioInclusaoDTO): ResponseEntity<UsuarioResponseDTO> =
@@ -39,7 +38,6 @@ class UsuarioController(
                 ResponseEntity.created(uri).body(novoUsuario)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PutMapping(value = ["/{id}"])
     @Operation(summary = "Atualiza usuário por ID")
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: UsuarioAtualizacaoDTO)
@@ -48,7 +46,6 @@ class UsuarioController(
                 ResponseEntity.ok().body(usuarioAtualizado)
             }
 
-    // TODO DEIXAR APENAS ADMIN
     @DeleteMapping(value = ["/{id}"])
     @Operation(summary = "Deleta usuário por ID")
     fun deletar(@PathVariable id: Long): ResponseEntity<UsuarioResponseDTO> =

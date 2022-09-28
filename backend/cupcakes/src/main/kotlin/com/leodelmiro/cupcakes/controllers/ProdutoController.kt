@@ -56,7 +56,6 @@ class ProdutoController(
                 ResponseEntity.ok().body(it)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PostMapping
     @Operation(summary = "Adicionar novo produto")
     fun inserir(@Valid @RequestBody dto: ProdutoInclusaoDTO): ResponseEntity<ProdutoResponseDTO>? =
@@ -69,7 +68,6 @@ class ProdutoController(
                 ResponseEntity.created(uri).body(novoProduto)
             }
 
-    // TODO DEIXAR APENAS ADMIN (WRITE)
     @PutMapping(value = ["/{id}"])
     @Operation(summary = "Atualiza produto por ID")
     fun atualizar(@PathVariable id: Long, @Valid @RequestBody dto: ProdutoAtualizacaoDTO)
@@ -78,7 +76,6 @@ class ProdutoController(
                 ResponseEntity.ok().body(produtoAtualizado)
             }
 
-    // TODO DEIXAR APENAS ADMIN
     @DeleteMapping(value = ["/{id}"])
     @Operation(summary = "Deleta produto por ID")
     fun deletar(@PathVariable id: Long): ResponseEntity<ProdutoResponseDTO>? =
