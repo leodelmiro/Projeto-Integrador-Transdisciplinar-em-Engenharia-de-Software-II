@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer
@@ -24,6 +25,7 @@ class AuthorizationServerConfig(
         @Autowired private val tokenStore: JwtTokenStore,
         @Autowired private val authenticationManager: AuthenticationManager,
         @Autowired private val jwtTokenEnhancer: JwtTokenEnhancer,
+        @Autowired private val userDetailsService: UserDetailsService,
         @Value("\${security.oauth2.client.client-secret}") private val clientSecret: String,
         @Value("\${security.oauth2.client.client-id}") private val clientId: String,
         @Value("\${jwt.duration}") private val jwtDuration: Int
@@ -38,8 +40,9 @@ class AuthorizationServerConfig(
                 .withClient(clientId)
                 .secret(passwordEncoder.encode(clientSecret))
                 .scopes("read", "write")
-                .authorizedGrantTypes("password")
+                .authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(jwtDuration)
+                .refreshTokenValiditySeconds(jwtDuration)
     }
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
@@ -50,5 +53,6 @@ class AuthorizationServerConfig(
                 .tokenStore(tokenStore)
                 .accessTokenConverter(accessTokenConverter)
                 .tokenEnhancer(chain)
+                .userDetailsService(userDetailsService)
     }
 }
