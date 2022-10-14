@@ -20,6 +20,10 @@ a {
     text-decoration: none; 
     color: unset;
   }
+
+  &:link {
+    text-decoration: none;
+  }
 }
 
 .border-radius-10 {

@@ -12,7 +12,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const currentUserData = getAccessTokenDecoded();
-        setCurrentUser(currentUserData.user_name);
+        setCurrentUser(currentUserData.usuario_nome);
     }, [location]);
 
     const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -23,7 +23,7 @@ const Navbar = () => {
     return (
         <nav className="bg-primary main-nav">
             <Link to="/" className="nav-logo-text">
-                <h4>Cupcakes Store</h4>
+                <h4>CupcakeStore</h4>
             </Link>
             <button className="menu-mobile-btn" type="button" onClick={() => setDrawerActive(!drawerActive)}>
                 <img src={menu} alt="Mobile Menu" />
