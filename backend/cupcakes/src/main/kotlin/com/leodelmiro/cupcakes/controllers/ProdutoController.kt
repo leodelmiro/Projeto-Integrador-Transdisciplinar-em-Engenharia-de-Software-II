@@ -27,6 +27,7 @@ class ProdutoController(
     @GetMapping
     @Operation(summary = "Lista todos os produtos paginado e com filtro")
     fun encontrarTodos(
+            @RequestParam(value = "nome", defaultValue = "") nome: String,
             @RequestParam(value = "saborId", defaultValue = "0") saborId: Long,
             @RequestParam(value = "min", defaultValue = "") precoMin: String,
             @RequestParam(value = "max", defaultValue = "") precoMax: String,
@@ -36,6 +37,7 @@ class ProdutoController(
             @RequestParam(value = "ordernarPor", defaultValue = "nome") ordernarPor: String
     ): ResponseEntity<Page<ProdutoResponseDTO>> =
             produtoService.encontrarTodosPaginado(
+                    if (nome == "") null else nome.trim(),
                     if (saborId == 0L) null else saborId,
                     if (precoMin == "") null else BigDecimal(precoMin),
                     if (precoMax == "") null else BigDecimal(precoMax),

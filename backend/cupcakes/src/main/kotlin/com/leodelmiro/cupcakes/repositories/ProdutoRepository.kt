@@ -12,8 +12,9 @@ import java.math.BigDecimal
 @Repository
 interface ProdutoRepository : JpaRepository<Produto, Long> {
     @Query("SELECT produto FROM Produto produto INNER JOIN produto.sabores sabores WHERE " +
+            "(:nome IS NULL OR (LOWER(produto.nome) LIKE LOWER(CONCAT('%',:nome, '%')))) AND " +
             "(:sabor IS NULL OR sabores IN :sabor) AND " +
             "(:precoMin IS NULL OR produto.preco >= :precoMin) AND " +
             "(:precoMax IS NULL OR produto.preco <= :precoMax)")
-    fun find(sabor: Sabor?, precoMin: BigDecimal?, precoMax: BigDecimal?, pagina: Pageable): Page<Produto>
+    fun find(nome: String?, sabor: Sabor?, precoMin: BigDecimal?, precoMax: BigDecimal?, pagina: Pageable): Page<Produto>
 }

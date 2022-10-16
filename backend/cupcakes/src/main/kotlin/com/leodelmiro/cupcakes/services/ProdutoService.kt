@@ -29,13 +29,14 @@ class ProdutoService(
 
     @Transactional(readOnly = true)
     fun encontrarTodosPaginado(
+            nome: String? = null,
             saborId: Long? = null,
             precoMin: BigDecimal? = null,
             precoMax: BigDecimal? = null,
             pagina: PageRequest
     ): Page<ProdutoResponseDTO> {
         val sabor = saborId?.let { sabor -> saborRepository.getReferenceById(sabor) }
-        return produtoRepository.find(sabor, precoMin, precoMax, pagina).map { x -> ProdutoResponseDTO(x) }
+        return produtoRepository.find(nome, sabor, precoMin, precoMax, pagina).map { x -> ProdutoResponseDTO(x) }
     }
 
     @Transactional(readOnly = true)
