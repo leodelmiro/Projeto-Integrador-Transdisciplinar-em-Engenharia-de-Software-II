@@ -8,7 +8,6 @@ type LoginResponse = {
     token_type: string;
     expires_in: number;
     scope: string;
-    usuario_id: string,
     usuario_nome: string;
 }
 

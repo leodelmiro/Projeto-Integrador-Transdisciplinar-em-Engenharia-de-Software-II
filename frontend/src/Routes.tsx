@@ -1,3 +1,4 @@
+import Catalog from 'pages/Catalog';
 import React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import Navbar from './core/components/Navbar';
@@ -8,8 +9,11 @@ const Routes = () => (
     <Router history={history}>
         <Navbar />
         <Switch>
-            <Route path="/">
+            <Route path="/" exact>
                 <Home />
+            </Route>
+            <Route path="/produtos" exact>
+                <Catalog/>
             </Route>
         </Switch>
     </Router>
