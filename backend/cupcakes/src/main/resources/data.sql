@@ -20,16 +20,18 @@ INSERT INTO tb_usuarios_role (usuario_id, role_id) VALUES (2, 3);
 
 INSERT INTO tb_usuarios_role (usuario_id, role_id) VALUES (3, 3);
 
-INSERT INTO tb_sabor (nome, criado_em) VALUES ('CHOCOLATE', NOW());
-INSERT INTO tb_sabor (nome, criado_em) VALUES ('BAUNILHA', NOW());
+INSERT INTO tb_sabor (nome, criado_em) VALUES ('Chocolate', NOW());
+INSERT INTO tb_sabor (nome, criado_em) VALUES ('Baunilha', NOW());
+INSERT INTO tb_sabor (nome, criado_em) VALUES ('Nutella', NOW());
 
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('CUPCAKE DE CHOCOLATE', 1, 5.5, 'CUPCAKE GOSTO DE CHOCOLATE', NOW());
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('CUPCAKE GOSTO DE BAUNILHA', 1, 5.5, 'CUPCAKE GOSTO DE BAUNILHA', NOW());
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('CUPCAKE GOSTO DE CHOCOLATE E BAUNILHA', 1, 5.5, 'CUPCAKE GOSTO DE CHOCOLATE E BAUNILHA', NOW());
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('Cupcake de Baunilha', 1, 5.5, 'Cupcake de Baunilha', NOW());
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('Cupcake de Chocolate', 1, 5.5, 'Cupcake de Chocolate', NOW());
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em) VALUES ('Cupcake de Nutella', 1, 5.5, 'Cupcake de Nutella', NOW());
 
 INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (1, 1);
 INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (2, 2);
-INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (3, 1);
-INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (3, 2);
+INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (3, 3);
 
-INSERT INTO tb_foto (url, criado_em, produto_id) VALUES ('https://www.receitadecupcake.com.br/wp-content/uploads/2012/05/Cupcake-chocolate.jpg', NOW(), 1);
+INSERT INTO tb_foto (url, criado_em, produto_id) VALUES ('https://cdn-icons-png.flaticon.com/512/3173/3173443.png', NOW(), 1);
+INSERT INTO tb_foto (url, criado_em, produto_id) VALUES ('https://cdn-icons-png.flaticon.com/512/3173/3173443.png', NOW(), 2);
+INSERT INTO tb_foto (url, criado_em, produto_id) VALUES ('https://cdn-icons-png.flaticon.com/512/3173/3173443.png', NOW(), 3);

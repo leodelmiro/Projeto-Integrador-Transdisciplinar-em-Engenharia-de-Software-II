@@ -1,12 +1,10 @@
 package com.leodelmiro.cupcakes.dto
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.model.Sabor
 import java.math.BigDecimal
 
 data class ProdutoResponseDTO(
-        @field:JsonIgnore
         val id: Long? = null,
         val nome: String,
         val quantidade: Int,
