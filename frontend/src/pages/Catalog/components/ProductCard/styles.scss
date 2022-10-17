@@ -15,11 +15,28 @@
     margin-top: 15px;
 }
 
+.product-sabor-container {
+    display: flex;
+    justify-content: center;
+}
+
+.product-sabor {
+    background: #DC9EF1;
+    border-radius: 10px;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+}
+
 .product-name {
     font-size: 18px;
     line-height: 25px;
     letter-spacing: -0.015em;
     color: #263238;
+    text-align: center;
 }
 
 .product-card-image{

@@ -1,5 +1,6 @@
 .product-price-container {
     display: flex;
+    justify-content: center;
 }
 
 .product-currency {
@@ -7,12 +8,13 @@
     line-height: 25px;
     letter-spacing: -0.015em;
     color: #9E9E9E;
+    align-self: flex-end;
 }
 
 .product-price {
     font-size: 32px;
     line-height: 44px;
     letter-spacing: -0.015em;
-    color: #407BFF;
-    margin-left: 10px;
+    color: #FF40B3;
+    margin-left: 5px;
 }

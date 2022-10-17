@@ -27,7 +27,7 @@ const ProductFilters = ({onSearch}: Props) => {
     useEffect(() => {
         setIsLoadingSabores(true);
         makeRequest({url: '/sabores'})
-            .then(response => setSabores(response.data.content))
+            .then(response => setSabores(response.data))
             .finally(() => setIsLoadingSabores(false))
     }, []);
 

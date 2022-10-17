@@ -10,15 +10,10 @@ export type Produto = {
     preco: number;
     quantidade: number;
     sabores: Sabor[];
-    fotos: Foto[];
+    fotos: string[];
 }
 
 export type Sabor = {
     id: number;
     nome: string;
-}
-
-export type Foto = {
-    id: number;
-    url: string;
 }
