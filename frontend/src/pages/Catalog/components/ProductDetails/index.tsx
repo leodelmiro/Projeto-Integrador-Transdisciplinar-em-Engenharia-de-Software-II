@@ -1,33 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
+import Button from 'core/components/Button';
 import ProductPrice from 'core/components/ProductPrice';
 import { Produto } from 'core/types/Produto';
-import { makeRequest } from 'core/utils/request';
+import history from 'core/utils/history';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import ProductDescriptionLoader from '../Loaders/ProductDescriptionLoader';
 import ProductInfoLoader from '../Loaders/ProductInfoLoader';
 import './styles.scss';
 
+
 type ParamsType = {
-    productId: string;
+    produtoId: string;
 }
 
 const ProductDetails = () => {
-    const { productId } = useParams<ParamsType>();
+    const { produtoId } = useParams<ParamsType>();
     const [product, setProduct] = useState<Produto>();
     const [isLoading, setIsLoading] = useState(false);
 
+    const createOrder = (usuario_id: number, produto_id: string) => {
+        makePrivateRequest({
+            method: 'POST',
+            url: '/pedidos',
+            data: JSON.stringify({
+                "usuario_id": usuario_id,
+                "produtos": [
+                    {
+                        "id": produto_id,
+                        "quantidade": 1
+                    }
+                ]
+            })
+        }).then(() => {
+            toast.info('Pedido realizado com sucesso!');
+            history.push('/admin/products')
+        })
+        .catch(() => {
+                toast.error('Erro ao realizar pedido!');
+        });
+    }
+
     useEffect(() => {
         setIsLoading(true);
-        makeRequest({ url: `/produtos/${productId}` })
+        makeRequest({ url: `/produtos/${produtoId}` })
             .then(response => setProduct(response.data))
             .finally(() => setIsLoading(false));
-    }, [productId]);
+    }, [produtoId]);
 
     return (
         <div className="product-details-container">
             <div className="card-base border-radius-20 product-details">
-                <Link to="/products" className="product-details-goback">
+                <Link to="/produtos" className="product-details-goback">
                     <ArrowIcon className="icon-goback" />
                     <h1 className="text-goback">Voltar</h1>
                 </Link>
@@ -43,6 +69,11 @@ const ProductDetails = () => {
                                         {product?.nome}
                                     </h1>
                                     {product?.preco && <ProductPrice price={product?.preco} />}
+                                    <span className='product-sabor-nome-container'><p className='product-sabor-nome'>{product?.sabores[0].nome}</p></span>
+                                    <span className='product-quantidade-container'>
+                                        <h4 className='product-quantidade-titulo'>Quantidade:</h4>
+                                        <p className='product-quantidade-numero'>{product?.quantidade}</p>
+                                    </span>
                                 </div>
                             </>
                         )}
@@ -59,6 +90,11 @@ const ProductDetails = () => {
                             </>
                         )}
                     </div>
+                </div>
+                <div className="button-right">
+                    <Link to="/pedido/compra" className="startSearchBtn">
+                        <Button text="COMPRAR"/>
+                    </Link>
                 </div>
             </div>
         </div>

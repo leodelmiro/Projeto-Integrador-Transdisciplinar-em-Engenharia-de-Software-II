@@ -1,0 +1,26 @@
+.default-button-salvar {
+    width: 275px;
+    height: 60px;
+    display: flex;
+
+    button h5 {
+        padding-top: 10px;
+        color: #ffffff;
+        text-align: center;
+        align-items: center;
+        width: 275px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .default-button {
+        max-width: 70vw;
+        height: 50px;
+        margin-bottom: 15px;
+
+        button h5 {
+            font-size: 1em;
+        }
+    }
+}

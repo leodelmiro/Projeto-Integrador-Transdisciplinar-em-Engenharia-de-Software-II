@@ -1,4 +1,5 @@
 import Catalog from 'pages/Catalog';
+import ProductDetails from 'pages/Catalog/components/ProductDetails';
 import React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import Navbar from './core/components/Navbar';
@@ -14,6 +15,9 @@ const Routes = () => (
             </Route>
             <Route path="/produtos" exact>
                 <Catalog/>
+            </Route>
+            <Route path="/produtos/:produtoId">
+                <ProductDetails/>
             </Route>
         </Switch>
     </Router>

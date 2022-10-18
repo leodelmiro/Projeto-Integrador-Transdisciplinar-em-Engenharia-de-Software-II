@@ -8,7 +8,7 @@ import Catalog from '..';
 import { productsResponse } from './fixtures';
 
 const server = setupServer(
-    rest.get('http://localhost:8080/products', (req, res, ctx) => {
+    rest.get('http://localhost:8080/produtos', (req, res, ctx) => {
       return res(ctx.json(productsResponse))
     })
 );

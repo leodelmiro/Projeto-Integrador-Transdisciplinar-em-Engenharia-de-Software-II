@@ -8,9 +8,8 @@
 }
 
 .product-details {
-    padding: 50px 60px 90px 60px;
+    padding: 50px 60px 20px 60px;
 }
-
 
 .product-details-goback {
     display: flex;
@@ -19,7 +18,7 @@
 }
 
 .icon-goback {
-    color: #407BFF;
+    color: #FF40B3;
     transform: rotate(-180deg);
     margin-right: 30px;
 }
@@ -62,6 +61,42 @@
     letter-spacing: -0.015em;
     color: #263238;
     margin-top: 35px;
+    text-align: center;
+}
+
+.product-sabor-nome-container {
+    display: flex;
+    justify-content: center;
+}
+
+.product-sabor-nome {
+    margin-top: 10px;
+    padding-top: 10px;
+    background: #DC9EF1;
+    border-radius: 10px;
+    width: 215px;
+    height: 50px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.product-quantidade-container {
+    display: flex;
+    justify-content: center;
+}
+
+.product-quantidade-titulo {
+    color: #9E9E9E;
+    font-size: 20px;
+    padding-top: 12px;
+}
+
+.product-quantidade-numero {
+    color: #FF40B3;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .product-description-title {
@@ -81,6 +116,13 @@
 
 .product-details .product-price{
     font-size: 48px;
+}
+
+.button-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    padding: 24px 24px 0 0;
 }
 
 @media (max-width: 768px) {
