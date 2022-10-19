@@ -46,3 +46,18 @@ a {
 .btn-outline-secondary {
   color: #9E9E9E;
 }
+
+.input-base {
+  height: 50px;
+  border: 1px solid #E1E1E1;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.015em;
+  color: #263238;
+
+  &::placeholder{
+    color: #9E9E9E;
+  }
+}

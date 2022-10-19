@@ -5,7 +5,7 @@ type Props = {
     text: String
 }
 
-// TODO ON CLICK DO BOTÃO
+// TODO ON CLICK DO BOTÃO E NO CASO DE SER O BOTÃO DE COMPRA VERIFICAR SE O USUÁRIO ESTÁ LOGADO
 const Button = ({ text } : Props) => (
     <div className="default-button-salvar">
         <button className="btn btn-primary">

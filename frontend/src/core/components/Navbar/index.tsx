@@ -82,10 +82,10 @@ const Navbar = () => {
             <div className="user-info-dnone text-right">
                 {currentUser && (
                     <>
-                        {currentUser}
+                        {currentUser}&nbsp;&nbsp;
                         <a
                             href="#logout"
-                            className="nav-link active d-inline"
+                            className="nav-link active d-inline pl-1"
                             onClick={(e) => {
                                 setDrawerActive(false);
                                 handleLogout(e);
