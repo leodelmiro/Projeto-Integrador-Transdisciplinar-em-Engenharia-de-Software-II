@@ -12,7 +12,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const currentUserData = getAccessTokenDecoded();
-        setCurrentUser(currentUserData.usuario_nome);
+        setCurrentUser(currentUserData.user_name);
     }, [location]);
 
     const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {

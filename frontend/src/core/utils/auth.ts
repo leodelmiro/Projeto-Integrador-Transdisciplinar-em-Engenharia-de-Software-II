@@ -15,8 +15,8 @@ export type Role = 'ROLE_VENDEDOR' | 'ROLE_ADMIN' | 'ROLE_USUARIO';
 
 type AccessToken = {
     exp: number;
-    usuario_nome: string;
-    roles: Role[];
+    user_name: string;
+    authorities: Role[];
 }
 
 export const saveSessionData = (loginResponse: LoginResponse) => {
@@ -58,9 +58,9 @@ export const isAllowedByRole = (routeRoles: Role[] = []) => {
         return true
     }
 
-    const { roles } = getAccessTokenDecoded();
+    const { authorities } = getAccessTokenDecoded();
     
-    return routeRoles.some(role => roles?.includes(role));
+    return routeRoles.some(role => authorities?.includes(role));
 }
 
 export const logout = () => {

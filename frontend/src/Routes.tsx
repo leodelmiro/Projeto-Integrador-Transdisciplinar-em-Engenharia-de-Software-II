@@ -1,3 +1,4 @@
+import Admin from 'pages/Admin';
 import Auth from 'pages/Auth';
 import Catalog from 'pages/Catalog';
 import ProductDetails from 'pages/Catalog/components/ProductDetails';
@@ -23,6 +24,10 @@ const Routes = () => (
             <Redirect from="/auth" to="/auth/login" exact/>
             <Route path="/auth">
                 <Auth/>
+            </Route>
+            <Redirect from="/admin" to="/admin/produtos" exact/>
+            <Route path="/admin">
+                <Admin/>
             </Route>
         </Switch>
     </Router>

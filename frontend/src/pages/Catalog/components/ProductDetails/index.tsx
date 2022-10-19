@@ -36,7 +36,7 @@ const ProductDetails = () => {
             })
         }).then(() => {
             toast.info('Pedido realizado com sucesso!');
-            history.push('/admin/products')
+            history.push('/admin/produtos')
         })
         .catch(() => {
                 toast.error('Erro ao realizar pedido!');
