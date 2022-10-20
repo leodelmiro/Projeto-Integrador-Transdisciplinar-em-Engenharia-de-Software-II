@@ -6,6 +6,7 @@
 
     .product-currency {
         font-size: 14px;
+        padding-bottom: 12px;
     }
 
     .product-price {
@@ -23,6 +24,15 @@
     font-size: 18px;
     line-height: 25px;
     letter-spacing: -0.015em;
+}
+
+.product-price-admin-container {
+    display: flex;
+    justify-content: left;
+}
+
+.product-card-description-admin {
+    color: #9E9E9E;
 }
 
 @media(max-width: 768px) {

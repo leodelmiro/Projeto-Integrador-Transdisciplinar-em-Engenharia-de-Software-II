@@ -22,14 +22,13 @@ const Card = ({ product: produto, onRemove }: Props) => {
                 <h3 className="card-content product-card-name-admin">
                     {produto.nome}
                 </h3>
-                <ProductPrice price={produto.preco} />
+                <span className='product-price-admin-container'>
+                    <ProductPrice price={produto.preco} />
+                </span>
                 <div>
-                    <span className="badge badge-pill badge-secondary mr-2">
-                        Categoria 1
-                    </span>
-                    <span className="badge badge-pill badge-secondary mr-2">
-                        Categoria 2
-                    </span>
+                    <p className="mr-2 product-card-description-admin">
+                        {produto.descricao}
+                    </p>
                 </div>
             </div>
             <div className="col-3 pt-3 pr-5">
