@@ -1,0 +1,16 @@
+.product-card-sabor-admin {
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: -0.015em;
+    padding: 20px 0;
+}
+
+.product-card-sabor-excluir-admin {
+    align-self: center;
+}
+
+@media(max-width: 768px) {
+    .card-content {
+        margin-left: 10px;
+    }
+}

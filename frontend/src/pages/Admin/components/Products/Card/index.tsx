@@ -18,7 +18,7 @@ const Card = ({ product: produto, onRemove }: Props) => {
                     className="product-card-image-admin"
                 />
             </div>
-            <div className="col-7 py-3">
+            <div className="col-8 py-3">
                 <h3 className="card-content product-card-name-admin">
                     {produto.nome}
                 </h3>

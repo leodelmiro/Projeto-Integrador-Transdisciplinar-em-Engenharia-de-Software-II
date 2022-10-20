@@ -2,6 +2,7 @@ import PrivateRoute from 'core/components/Routes/PrivateRoute';
 import { Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Products from './components/Products';
+import Sabores from './components/Sabores/List';
 import './styles.scss';
 
 const Admin = () => (
@@ -12,8 +13,8 @@ const Admin = () => (
                 <PrivateRoute path="/admin/produtos" allowedRoutes={['ROLE_ADMIN', 'ROLE_VENDEDOR']}>
                     <Products />
                 </PrivateRoute>
-                <PrivateRoute path="/admin/users" allowedRoutes={['ROLE_ADMIN', 'ROLE_VENDEDOR']}>
-                    <h1>Sabores</h1>
+                <PrivateRoute path="/admin/sabores" allowedRoutes={['ROLE_ADMIN', 'ROLE_VENDEDOR']}>
+                    <Sabores/>
                 </PrivateRoute>
             </Switch>
         </div>

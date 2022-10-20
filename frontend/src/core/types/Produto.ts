@@ -13,6 +13,11 @@ export type Produto = {
     fotos: string[];
 }
 
+export type SaborResponse = {
+    content: Sabor[];
+    totalPages: number;
+}
+
 export type Sabor = {
     id: number;
     nome: string;
