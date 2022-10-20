@@ -9,8 +9,11 @@ import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 import javax.persistence.EntityNotFoundException
 
 @Service
@@ -18,6 +21,12 @@ class SaborService(@Autowired val saborRepository: SaborRepository) {
 
     @Transactional(readOnly = true)
     fun encontrarTodos(): List<SaborResponseDTO> = saborRepository.findAll().map { sabor -> SaborResponseDTO(sabor) }
+
+    @Transactional(readOnly = true)
+    fun encontrarTodosPaginado(
+            nome: String? = null,
+            pagina: PageRequest
+    ): Page<SaborResponseDTO> = saborRepository.find(nome, pagina).map { sabor -> SaborResponseDTO(sabor) }
 
     @Transactional
     fun inserir(dto: SaborRequestDTO): SaborResponseDTO =
