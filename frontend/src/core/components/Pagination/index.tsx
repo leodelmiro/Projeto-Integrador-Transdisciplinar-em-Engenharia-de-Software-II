@@ -9,6 +9,7 @@ type Props = {
     onChange: (item: number) => void;
 }
 
+//TODO ARRUMAR PAGINAÇÃO
 const Pagination = ({totalPages, activePage, onChange}: Props) => {
     const items = generateList(totalPages);
     const previousClass = totalPages > 0 && activePage > 0 ? 'page-active' : 'page-inactive';

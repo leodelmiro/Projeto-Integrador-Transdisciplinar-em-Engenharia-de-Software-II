@@ -11,6 +11,7 @@ import ReactSelect from 'react-select';
 type FormState = {
     nome: string,
     preco: string,
+    quantidade: string,
     descricao: string,
     fotos: string[];
     sabores: Sabor[];       
@@ -28,17 +29,18 @@ const Form = () => {
     const { productId } = useParams<ParamsType>();
     const [isLoadingSabores, setIsLoadingSabores] = useState(false);
     const [sabores, setSabores] = useState<Sabor[]>([]);
-    const isEditing = productId !== 'create';
+    const isEditing = productId !== 'cria';
     const formTitle = isEditing ? 'Editar produto' : "cadastrar um produto";
 
     useEffect(() => {
         if(isEditing) {
-            makeRequest({ url: `/products/${productId}` })
+            makeRequest({ url: `/produtos/${productId}` })
                 .then(response => {
-                    setValue('name', response.data.name);
-                    setValue('price', response.data.price);
-                    setValue('description', response.data.description);
-                    setValue('imgUrl', response.data.imgUrl);
+                    setValue('nome', response.data.nome);
+                    setValue('preco', response.data.preco);
+                    setValue('quantidade', response.data.quantidade);
+                    setValue('descricao', response.data.descricao);
+                    setValue('fotos', response.data.fotos[0]);
                     setValue('sabores', response.data.sabores)
             })
         }
@@ -47,7 +49,7 @@ const Form = () => {
     useEffect(() => {
         setIsLoadingSabores(true);
         makeRequest({url: '/sabores'})
-            .then(response => setSabores(response.data.content))
+            .then(response => setSabores(response.data))
             .finally(() => setIsLoadingSabores(false))
     }, []);
 
@@ -55,7 +57,14 @@ const Form = () => {
         makePrivateRequest({
             method: isEditing ? 'PUT' : 'POST', 
             url: isEditing ? `/produtos/${productId}` : '/produtos', 
-            data 
+            data: {
+                nome: data.nome,
+                preco: data.preco,
+                quantidade: data.quantidade,
+                descricao: data.descricao,
+                fotos: [{url: data.fotos[0]}],
+                sabores: data.sabores.map(sabor => sabor.id) 
+            }
         })
             .then(() => {
                 toast.info('Produto cadastrado com sucesso!');
@@ -75,7 +84,7 @@ const Form = () => {
                     <div className="col-6">
                         <div className="margin-bottom-30">
                             <input
-                                name="name"
+                                name="nome"
                                 type="text" 
                                 className="form-control input-base"
                                 placeholder="Nome do produto"
@@ -84,7 +93,7 @@ const Form = () => {
                                     minLength: {value: 5, message: "O campo deve ter no mínimo 5 caracteres"},
                                     maxLength: {value: 60, message: "O campo deve ter no máximo 60 caracteres"}
                                 })}
-                                data-testid="name"
+                                data-testid="nome"
                             />
 
                             {errors.nome && (
@@ -106,7 +115,7 @@ const Form = () => {
                                 options={sabores}
                                 getOptionLabel={(option: Sabor) => option.nome}
                                 getOptionValue={(option: Sabor) => String(option.id)} 
-                                placeholder="Categorias"
+                                placeholder="Sabores"
                                 classNamePrefix="sabores-select"
                                 inputId="sabores"
                                 defaultValue=""
@@ -119,32 +128,52 @@ const Form = () => {
                                 </div>
                             )}
                         </div>
+                    
+                        <div className='row'>
+                            
+                        <div className="margin-bottom-30 mr-3 ml-3 input-dividido">
+                            <input
+                                    name="preco"
+                                    type="number" 
+                                    className="form-control input-base"
+                                    placeholder="Preço"
+                                    ref={register({required: "Campo obrigatório"})}
+                                    data-testid="preco"
+                                />
 
-                       <div className="margin-bottom-30">
-                        <input
-                                name="price"
-                                type="number" 
-                                className="form-control input-base"
-                                placeholder="Preço"
-                                ref={register({required: "Campo obrigatório"})}
-                                data-testid="price"
-                            />
+                                {errors.preco && (
+                                    <div className="invalid-feedback d-block">
+                                        {errors.preco.message}
+                                    </div>
+                                )}
+                        </div>
 
-                            {errors.preco && (
-                                <div className="invalid-feedback d-block">
-                                    {errors.preco.message}
-                                </div>
-                            )}
-                       </div>
+                        <div className="margin-bottom-30 mr-2 input-dividido">
+                            <input
+                                    name="quantidade"
+                                    type="number" 
+                                    className="form-control input-base"
+                                    placeholder="Quantidade"
+                                    ref={register({required: "Campo obrigatório"})}
+                                    data-testid="quantidade"
+                                />
+
+                                {errors.quantidade && (
+                                    <div className="invalid-feedback d-block">
+                                        {errors.quantidade.message}
+                                    </div>
+                                )}
+                        </div>
+                        </div>
 
                        <div className="margin-bottom-30 ">
                         <input
-                                name="imgUrl"
+                                name="fotos"
                                 type="text" 
                                 className="form-control input-base"
                                 placeholder="Imagem do produto"
                                 ref={register({required: "Campo obrigatório"})}
-                                data-testid="imgUrl"
+                                data-testid="fotos"
                             />
 
                             {errors.fotos && (
@@ -157,13 +186,13 @@ const Form = () => {
                     </div>
                     <div className="col-6">
                         <textarea
-                            name="description"
-                            className="form-control input-base"
+                            name="descricao"
+                            className="form-control input-base pb-3"
                             placeholder="Descrição" 
                             cols={30} 
                             rows={10}
                             ref={register({required: "Campo obrigatório"})}
-                            data-testid="description"
+                            data-testid="descricao"
                         /> 
 
                         {errors.descricao && (
