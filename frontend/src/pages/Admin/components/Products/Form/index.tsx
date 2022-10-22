@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { makePrivateRequest, makeRequest } from 'core/utils/request';
-import { useForm, Controller } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { useHistory, useParams } from 'react-router-dom';
-import BaseForm from '../../BaseForm';
-import './styles.scss'
 import { Sabor } from 'core/types/Produto';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import React, { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useHistory, useParams } from 'react-router-dom';
 import ReactSelect from 'react-select';
+import { toast } from 'react-toastify';
+import BaseForm from '../../BaseForm';
+import './styles.scss';
 
 type FormState = {
     nome: string,
@@ -14,7 +14,7 @@ type FormState = {
     quantidade: string,
     descricao: string,
     fotos: string[];
-    sabores: Sabor[];       
+    sabores: Sabor[];
 }
 
 type ParamsType = {
@@ -33,7 +33,7 @@ const Form = () => {
     const formTitle = isEditing ? 'Editar produto' : "cadastrar um produto";
 
     useEffect(() => {
-        if(isEditing) {
+        if (isEditing) {
             makeRequest({ url: `/produtos/${productId}` })
                 .then(response => {
                     setValue('nome', response.data.nome);
@@ -42,28 +42,28 @@ const Form = () => {
                     setValue('descricao', response.data.descricao);
                     setValue('fotos', response.data.fotos[0]);
                     setValue('sabores', response.data.sabores)
-            })
+                })
         }
     }, [productId, isEditing, setValue]);
 
     useEffect(() => {
         setIsLoadingSabores(true);
-        makeRequest({url: '/sabores'})
+        makeRequest({ url: '/sabores' })
             .then(response => setSabores(response.data))
             .finally(() => setIsLoadingSabores(false))
     }, []);
 
     const onSubmit = (data: FormState) => {
         makePrivateRequest({
-            method: isEditing ? 'PUT' : 'POST', 
-            url: isEditing ? `/produtos/${productId}` : '/produtos', 
+            method: isEditing ? 'PUT' : 'POST',
+            url: isEditing ? `/produtos/${productId}` : '/produtos',
             data: {
                 nome: data.nome,
                 preco: data.preco,
                 quantidade: data.quantidade,
                 descricao: data.descricao,
-                fotos: [{url: data.fotos[0]}],
-                sabores: data.sabores.map(sabor => sabor.id) 
+                fotos: [{ url: data.fotos[0] }],
+                sabores: data.sabores.map(sabor => sabor.id)
             }
         })
             .then(() => {
@@ -77,7 +77,7 @@ const Form = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <BaseForm 
+            <BaseForm
                 title={formTitle}
             >
                 <div className="row">
@@ -85,13 +85,13 @@ const Form = () => {
                         <div className="margin-bottom-30">
                             <input
                                 name="nome"
-                                type="text" 
+                                type="text"
                                 className="form-control input-base"
                                 placeholder="Nome do produto"
                                 ref={register({
                                     required: "Campo obrigatório",
-                                    minLength: {value: 5, message: "O campo deve ter no mínimo 5 caracteres"},
-                                    maxLength: {value: 60, message: "O campo deve ter no máximo 60 caracteres"}
+                                    minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
+                                    maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
                                 })}
                                 data-testid="nome"
                             />
@@ -107,19 +107,19 @@ const Form = () => {
                         <div className="margin-bottom-30">
                             <label htmlFor="sabores" className="d-none">Sabores</label>
                             <Controller
-                                as={<ReactSelect/>}
+                                as={<ReactSelect />}
                                 name="sabores"
                                 rules={{ required: true }}
                                 control={control}
                                 isLoading={isLoadingSabores}
                                 options={sabores}
                                 getOptionLabel={(option: Sabor) => option.nome}
-                                getOptionValue={(option: Sabor) => String(option.id)} 
+                                getOptionValue={(option: Sabor) => String(option.id)}
                                 placeholder="Sabores"
                                 classNamePrefix="sabores-select"
                                 inputId="sabores"
                                 defaultValue=""
-                                isMulti 
+                                isMulti
                             />
 
                             {errors.sabores && (
@@ -128,16 +128,16 @@ const Form = () => {
                                 </div>
                             )}
                         </div>
-                    
+
                         <div className='row'>
-                            
-                        <div className="margin-bottom-30 mr-3 ml-3 input-dividido">
-                            <input
+
+                            <div className="margin-bottom-30 mr-3 ml-3 input-dividido">
+                                <input
                                     name="preco"
-                                    type="number" 
+                                    type="number"
                                     className="form-control input-base"
                                     placeholder="Preço"
-                                    ref={register({required: "Campo obrigatório"})}
+                                    ref={register({ required: "Campo obrigatório" })}
                                     data-testid="preco"
                                 />
 
@@ -146,15 +146,15 @@ const Form = () => {
                                         {errors.preco.message}
                                     </div>
                                 )}
-                        </div>
+                            </div>
 
-                        <div className="margin-bottom-30 mr-2 input-dividido">
-                            <input
+                            <div className="margin-bottom-30 mr-2 input-dividido">
+                                <input
                                     name="quantidade"
-                                    type="number" 
+                                    type="number"
                                     className="form-control input-base"
                                     placeholder="Quantidade"
-                                    ref={register({required: "Campo obrigatório"})}
+                                    ref={register({ required: "Campo obrigatório" })}
                                     data-testid="quantidade"
                                 />
 
@@ -163,16 +163,16 @@ const Form = () => {
                                         {errors.quantidade.message}
                                     </div>
                                 )}
-                        </div>
+                            </div>
                         </div>
 
-                       <div className="margin-bottom-30 ">
-                        <input
+                        <div className="margin-bottom-30 ">
+                            <input
                                 name="fotos"
-                                type="text" 
+                                type="text"
                                 className="form-control input-base"
                                 placeholder="Imagem do produto"
-                                ref={register({required: "Campo obrigatório"})}
+                                ref={register({ required: "Campo obrigatório" })}
                                 data-testid="fotos"
                             />
 
@@ -181,19 +181,19 @@ const Form = () => {
                                     {errors.fotos[0]?.message}
                                 </div>
                             )}
-                       </div>
-                    
+                        </div>
+
                     </div>
                     <div className="col-6">
                         <textarea
                             name="descricao"
                             className="form-control input-base pb-3"
-                            placeholder="Descrição" 
-                            cols={30} 
+                            placeholder="Descrição"
+                            cols={30}
                             rows={10}
-                            ref={register({required: "Campo obrigatório"})}
+                            ref={register({ required: "Campo obrigatório" })}
                             data-testid="descricao"
-                        /> 
+                        />
 
                         {errors.descricao && (
                             <div className="invalid-feedback d-block">

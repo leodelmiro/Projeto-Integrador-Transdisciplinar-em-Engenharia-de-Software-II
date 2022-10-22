@@ -16,6 +16,7 @@ export type Role = 'ROLE_VENDEDOR' | 'ROLE_ADMIN' | 'ROLE_USUARIO';
 type AccessToken = {
     exp: number;
     user_name: string;
+    usuario_id: number;
     authorities: Role[];
 }
 

@@ -2,6 +2,7 @@ import Admin from 'pages/Admin';
 import Auth from 'pages/Auth';
 import Catalog from 'pages/Catalog';
 import ProductDetails from 'pages/Catalog/components/ProductDetails';
+import OrderPayment from 'pages/Payment/components/OrderPayment';
 import React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import Navbar from './core/components/Navbar';
@@ -20,6 +21,9 @@ const Routes = () => (
             </Route>
             <Route path="/produtos/:produtoId">
                 <ProductDetails/>
+            </Route>
+            <Route path="/pedidos/:pedidoId">
+                <OrderPayment/>
             </Route>
             <Redirect from="/auth" to="/auth/login" exact/>
             <Route path="/auth">

@@ -2,6 +2,7 @@ import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
 import Button from 'core/components/Button';
 import ProductPrice from 'core/components/ProductPrice';
 import { Produto } from 'core/types/Produto';
+import { getAccessTokenDecoded } from 'core/utils/auth';
 import history from 'core/utils/history';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { useEffect, useState } from 'react';
@@ -22,25 +23,29 @@ const ProductDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const createOrder = (usuario_id: number, produto_id: string) => {
-        makePrivateRequest({
-            method: 'POST',
-            url: '/pedidos',
-            data: JSON.stringify({
-                "usuario_id": usuario_id,
-                "produtos": [
-                    {
-                        "id": produto_id,
-                        "quantidade": 1
-                    }
-                ]
+        const confirm = window.confirm('Deseja realmente realizar pedido?');
+
+        if (confirm) {
+            makePrivateRequest({
+                method: 'POST',
+                url: '/pedidos',
+                data: {
+                    "usuario_id": usuario_id,
+                    "produtos": [
+                        {
+                            "id": parseInt(produto_id),
+                            "quantidade": 1
+                        }
+                    ]
+                }
+            }).then((result) => {
+                toast.info('Pedido realizado com sucesso!');
+                history.push('/pedidos/'+ result.data.id)
             })
-        }).then(() => {
-            toast.info('Pedido realizado com sucesso!');
-            history.push('/admin/produtos')
-        })
-        .catch(() => {
-                toast.error('Erro ao realizar pedido!');
-        });
+                .catch(() => {
+                    toast.error('Erro ao realizar pedido!');
+                });
+        }
     }
 
     useEffect(() => {
@@ -92,9 +97,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 <div className="button-right">
-                    <Link to="/pedido/compra" className="startSearchBtn">
-                        <Button text="COMPRAR"/>
-                    </Link>
+                    <Button text="COMPRAR" className="btn btn-primary" onClick={() => createOrder(getAccessTokenDecoded().usuario_id, produtoId)} />
                 </div>
             </div>
         </div>

@@ -2,13 +2,14 @@ import React from 'react';
 import './styles.scss';
 
 type Props = {
-    text: String
+    text: String,
+    onClick?: any,
+    className: string
 }
 
-// TODO ON CLICK DO BOTÃO E NO CASO DE SER O BOTÃO DE COMPRA VERIFICAR SE O USUÁRIO ESTÁ LOGADO, USAR COMO BASE PRIVATE ROUTE
-const Button = ({ text } : Props) => (
+const Button = ({ text, onClick, className } : Props) => (
     <div className="default-button-salvar">
-        <button className="btn btn-primary">
+        <button className={className} onClick={() => onClick()}>
             <h5>{text}</h5>
         </button>
     </div>
