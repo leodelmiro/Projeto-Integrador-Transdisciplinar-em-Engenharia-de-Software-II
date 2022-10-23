@@ -1,16 +1,18 @@
 package com.leodelmiro.cupcakes.repositories
 
 import com.leodelmiro.cupcakes.model.Pedido
-import com.leodelmiro.cupcakes.model.Produto
-import com.leodelmiro.cupcakes.model.Sabor
-import com.leodelmiro.cupcakes.model.Usuario
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.math.BigDecimal
 
 @Repository
 interface PedidoRepository : JpaRepository<Pedido, Long> {
-    fun findAllByUsuarioId(id: Long): List<Pedido>
+
+    @Query("SELECT pedido FROM Pedido pedido " +
+            "INNER JOIN pedido.produtos produtos " +
+            "INNER JOIN pedido.usuario usuario WHERE " +
+            "(:id = usuario.id) AND " +
+            "(:numero IS NULL OR :numero = pedido.id)")
+    fun findAllByUsuarioId(id: Long, numero: Long?, pagina: Pageable): List<Pedido>
 }

@@ -6,6 +6,8 @@ import com.leodelmiro.cupcakes.services.PedidoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -28,8 +30,22 @@ class PedidoController(
 
     @GetMapping(value = ["/usuarios/{id}"])
     @Operation(summary = "Lista todos os pedidos por ID do Usuário")
-    fun encontrarTodosPorUsuario(@PathVariable id: Long): ResponseEntity<List<PedidoResponseDTO>>? =
-            pedidoService.encontrarTodosPorUsuario(id).let {
+    fun encontrarTodosPorUsuario(@PathVariable(value = "id") usuarioId: Long,
+                                 @RequestParam(value = "numero", defaultValue = "0") numero: Long,
+                                 @RequestParam(value = "pagina", defaultValue = "0") pagina: Int,
+                                 @RequestParam(value = "pedidosPorPagina", defaultValue = "12") pedidosPorPagina: Int,
+                                 @RequestParam(value = "direcao", defaultValue = "ASC") direcao: String,
+                                 @RequestParam(value = "ordernarPor", defaultValue = "id") ordernarPor: String):
+            ResponseEntity<List<PedidoResponseDTO>>? =
+            pedidoService.encontrarTodosPorUsuario(
+                    usuarioId,
+                    if (numero == 0L) null else numero,
+                    PageRequest.of(
+                            pagina,
+                            if (pedidosPorPagina == 0) Int.MAX_VALUE else pedidosPorPagina,
+                            Sort.Direction.valueOf(direcao),
+                            ordernarPor
+                    )).let {
                 ResponseEntity.ok().body(it)
             }
 
