@@ -3,7 +3,7 @@ import Auth from 'pages/Auth';
 import Catalog from 'pages/Catalog';
 import ProductDetails from 'pages/Catalog/components/ProductDetails';
 import OrderPayment from 'pages/Payment/components/OrderPayment';
-import React from 'react';
+import User from 'pages/User';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import Navbar from './core/components/Navbar';
 import history from './core/utils/history';
@@ -17,21 +17,25 @@ const Routes = () => (
                 <Home />
             </Route>
             <Route path="/produtos" exact>
-                <Catalog/>
+                <Catalog />
             </Route>
             <Route path="/produtos/:produtoId">
-                <ProductDetails/>
+                <ProductDetails />
             </Route>
             <Route path="/pedidos/:pedidoId">
-                <OrderPayment/>
+                <OrderPayment />
             </Route>
-            <Redirect from="/auth" to="/auth/login" exact/>
+            <Redirect from="/auth" to="/auth/login" exact />
             <Route path="/auth">
-                <Auth/>
+                <Auth />
             </Route>
-            <Redirect from="/admin" to="/admin/produtos" exact/>
+            <Redirect from="/admin" to="/admin/produtos" exact />
             <Route path="/admin">
-                <Admin/>
+                <Admin />
+            </Route>
+            <Redirect from="/perfil" to="/perfil/pedidos" exact />
+            <Route path="/perfil">
+                <User />
             </Route>
         </Switch>
     </Router>

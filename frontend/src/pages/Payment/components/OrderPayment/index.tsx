@@ -2,7 +2,6 @@ import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
 import Button from 'core/components/Button';
 import history from 'core/utils/history';
 import { makePrivateRequest } from 'core/utils/request';
-import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BoletoImage from '../../../../core/assets/images/boleto.svg';
@@ -17,7 +16,6 @@ type ParamsType = {
 
 const OrderPayment = () => {
     const { pedidoId } = useParams<ParamsType>();
-    const [isLoading, setIsLoading] = useState(false);
 
     const pagarPix = () => {
         const confirm = window.confirm('Deseja realmente confirmar pagamento com pix?');
@@ -66,6 +64,23 @@ const OrderPayment = () => {
             })
                 .catch(() => {
                     toast.error('Erro ao finalizar pedido!');
+                });
+        }
+    }
+
+    const cancelar = () => {
+        const confirm = window.confirm('Deseja realmente cancelar o pedido?');
+
+        if (confirm) {
+            makePrivateRequest({
+                method: 'POST',
+                url: '/pedidos/' + pedidoId + '/cancelar'
+            }).then(() => {
+                toast.info('Pedido cancelado com sucesso!');
+                history.push('/perfil/pedidos')
+            })
+                .catch(() => {
+                    toast.error('Erro ao cancelar pedido!');
                 });
         }
     }
@@ -135,7 +150,7 @@ const OrderPayment = () => {
                     </div>
                 </div>
                 <div className="button-right">
-                    <Button text={"CANCELAR"} className={"btn btn-outline-danger"}></Button>
+                    <Button text={"CANCELAR"} className={"btn btn-outline-danger"} onClick={() => cancelar()} />
                 </div>
             </div>
         </div>
