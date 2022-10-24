@@ -6,6 +6,7 @@ import com.leodelmiro.cupcakes.services.PedidoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
@@ -36,7 +37,7 @@ class PedidoController(
                                  @RequestParam(value = "pedidosPorPagina", defaultValue = "12") pedidosPorPagina: Int,
                                  @RequestParam(value = "direcao", defaultValue = "ASC") direcao: String,
                                  @RequestParam(value = "ordernarPor", defaultValue = "id") ordernarPor: String):
-            ResponseEntity<List<PedidoResponseDTO>>? =
+            ResponseEntity<Page<PedidoResponseDTO>>? =
             pedidoService.encontrarTodosPorUsuario(
                     usuarioId,
                     if (numero == 0L) null else numero,

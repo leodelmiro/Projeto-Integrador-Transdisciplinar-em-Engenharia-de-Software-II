@@ -1,5 +1,5 @@
 INSERT INTO tb_role (autoridade) VALUES ('ROLE_ADMIN');
-INSERT INTO tb_role (autoridade) VALUES ('ROLE_VENDEDOR');
+INSERT INTO tb_role (autoridade) VALUES (' ');
 INSERT INTO tb_role (autoridade) VALUES ('ROLE_USUARIO');
 
 INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, bairro, cep, cidade, estado, criado_em)

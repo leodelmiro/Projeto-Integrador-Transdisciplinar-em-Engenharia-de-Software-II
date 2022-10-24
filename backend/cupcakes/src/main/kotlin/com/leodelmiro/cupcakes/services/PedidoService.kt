@@ -11,6 +11,7 @@ import com.leodelmiro.cupcakes.model.Status
 import com.leodelmiro.cupcakes.repositories.PedidoRepository
 import com.leodelmiro.cupcakes.services.exceptions.RecursoNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -32,7 +33,7 @@ class PedidoService(
                     .let { pedido -> PedidoResponseDTO(pedido, produtoService) }
 
     @Transactional(readOnly = true)
-    fun encontrarTodosPorUsuario(id: Long, numero: Long?, pagina: PageRequest): List<PedidoResponseDTO> =
+    fun encontrarTodosPorUsuario(id: Long, numero: Long?, pagina: PageRequest): Page<PedidoResponseDTO> =
             authService.validataSeDeleOuAdmin(id).run {
                 pedidoRepository.findAllByUsuarioId(id, numero, pagina).map { PedidoResponseDTO(it, produtoService) }
             }
