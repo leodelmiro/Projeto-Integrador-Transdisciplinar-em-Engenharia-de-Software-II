@@ -26,7 +26,7 @@ const PedidoFilter = ({ onSearch }: Props) => {
     }
 
     return (
-        <div className="card-base sabor-filters-container">
+        <div className="card-base pedido-filters-container">
             <div className="input-search">
                 <input
                     value={numero}

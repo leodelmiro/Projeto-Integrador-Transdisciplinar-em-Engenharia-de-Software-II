@@ -1,15 +1,15 @@
 INSERT INTO tb_role (autoridade) VALUES ('ROLE_ADMIN');
-INSERT INTO tb_role (autoridade) VALUES (' ');
+INSERT INTO tb_role (autoridade) VALUES ('ROLE_VENDEDOR');
 INSERT INTO tb_role (autoridade) VALUES ('ROLE_USUARIO');
 
-INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, bairro, cep, cidade, estado, criado_em)
-VALUES ('Leonardo Admin', '27284825006', 'leo@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
+INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, identificador, bairro, cep, cidade, estado, criado_em)
+VALUES ('Leonardo Admin', '27284825006', 'leo@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', '1', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
 
-INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, bairro, cep, cidade, estado, criado_em)
-VALUES ('Leonardo Vendedor', '33728711624', 'leo2@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
+INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, identificador, bairro, cep, cidade, estado, criado_em)
+VALUES ('Leonardo Vendedor', '33728711624', 'leo2@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', '1', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
 
-INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, bairro, cep, cidade, estado, criado_em)
-VALUES ('Leonardo Usuario', '48883169450', 'leo3@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
+INSERT INTO tb_usuario(nome, cpf, email, password, ddd, numero, logradouro, identificador, bairro, cep, cidade, estado, criado_em)
+VALUES ('Leonardo Usuario', '48883169450', 'leo3@email.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG', '13', '999999999', 'Rua Teste', '1', 'Bairro', '11740000', 'Itanhaém', 'SP', NOW());
 
 INSERT INTO tb_usuarios_role (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO tb_usuarios_role (usuario_id, role_id) VALUES (1, 2);

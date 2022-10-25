@@ -21,8 +21,6 @@ type ParamsType = {
     productId: string
 }
 
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
-
 const Form = () => {
     const { register, handleSubmit, errors, setValue, control } = useForm<FormState>();
     const history = useHistory();

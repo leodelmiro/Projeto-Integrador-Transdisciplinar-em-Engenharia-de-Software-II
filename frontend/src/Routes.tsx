@@ -1,5 +1,6 @@
 import Admin from 'pages/Admin';
 import Auth from 'pages/Auth';
+import Register from 'pages/Auth/Register';
 import Catalog from 'pages/Catalog';
 import ProductDetails from 'pages/Catalog/components/ProductDetails';
 import OrderPayment from 'pages/Payment/components/OrderPayment';
@@ -28,6 +29,9 @@ const Routes = () => (
             <Redirect from="/auth" to="/auth/login" exact />
             <Route path="/auth">
                 <Auth />
+            </Route>
+            <Route path="/auth/cadastro">
+                <Register/>
             </Route>
             <Redirect from="/admin" to="/admin/produtos" exact />
             <Route path="/admin">

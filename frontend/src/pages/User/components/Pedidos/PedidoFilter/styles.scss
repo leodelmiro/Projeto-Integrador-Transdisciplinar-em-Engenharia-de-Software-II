@@ -1,5 +1,5 @@
-.sabor-filters-container {
-    width: 70%;
+.pedido-filters-container {
+    width: 100%;
     padding: 10px 20px;
     border-radius: 10px;
     display: flex;
@@ -26,54 +26,11 @@
     }
 }
 
-.novo-sabor-container {
-    margin-right: 100px;
-}
-
-.filter-select-container {
-    flex: 1;
-    margin-left: 50px;
-    margin-right: 50px;
-
-    .product-sabores-select__control {
-        height: 30px;
-        border: none;
-        border-radius: 0;
-        border-bottom: 1px solid #E1E1E1;
-    }
-    
-    .product-sabores-select__indicator-separator {
-        display: none;
-    }
-    
-    .product-sabores-select__placeholder {
-        color: #9E9E9E
-    }
-}
-
-.search-preco-max {
-    flex: 1;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-@media (max-width: 768px) {
-    .product-filters-container {
-        width: 100%;
-    }
-}
-
 @media (max-width: 576px) {
-    .product-filters-container {
-        width: 100%;
+    .pedido-filters-container {
         height: 200px;
         flex-direction: column;
         justify-content: space-between;
         padding: 20px;
-    }
-
-    .filter-select-container {
-        width: 100%;
-        margin: 10px 0px;
     }
 }

@@ -8,6 +8,8 @@ data class Endereco(
         @field:Column(nullable = false)
         val logradouro: String,
         @field:Column(nullable = false)
+        val identificador: String,
+        @field:Column(nullable = false)
         val bairro: String,
         @field:Column(nullable = false)
         val cep: String,

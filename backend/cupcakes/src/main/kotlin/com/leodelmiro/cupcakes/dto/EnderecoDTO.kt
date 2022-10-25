@@ -6,6 +6,8 @@ import javax.validation.constraints.NotBlank
 data class EnderecoDTO(
         @field:NotBlank(message = "Logradouro não pode ser em branco.")
         val logradouro: String,
+        @field:NotBlank(message = "Numero não pode ser em branco.")
+        val numero: String,
         @field:NotBlank(message = "Bairro não pode ser em branco.")
         val bairro: String,
         @field:NotBlank(message = "CEP não pode ser em branco.")
@@ -18,6 +20,7 @@ data class EnderecoDTO(
     companion object {
         fun EnderecoDTO.toEntidade() = Endereco(
                 this.logradouro,
+                this.numero,
                 this.bairro,
                 this.cep,
                 this.cidade,

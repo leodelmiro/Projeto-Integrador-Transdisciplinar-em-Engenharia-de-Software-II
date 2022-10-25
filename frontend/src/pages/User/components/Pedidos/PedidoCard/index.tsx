@@ -1,4 +1,4 @@
-import ProductPrice, { formatPrice } from 'core/components/ProductPrice';
+import { formatPrice } from 'core/components/ProductPrice';
 import { Pedido } from 'core/types/Produto';
 import { Link } from 'react-router-dom';
 import './styles.scss';

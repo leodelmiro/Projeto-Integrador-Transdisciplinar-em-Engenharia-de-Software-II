@@ -1,6 +1,6 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
+import Register from './Register';
 import './styles.scss';
 
 
@@ -10,10 +10,10 @@ const Auth = () => (
         <div className="auth-content">
             <Switch>
                 <Route path="/auth/login">
-                    <Login/>
+                    <Login />
                 </Route>
-                <Route path="/auth/register">
-                    <h1>Register</h1>
+                <Route path="/auth/cadastro">
+                    <Register />
                 </Route>
             </Switch>
         </div>
