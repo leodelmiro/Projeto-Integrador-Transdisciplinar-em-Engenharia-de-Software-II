@@ -1,6 +1,6 @@
 import { ReactComponent as ArrowIcon } from 'core/assets/images/arrow.svg';
 import Button from 'core/components/Button';
-import { makePrivateRequest } from 'core/utils/request';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import { useForm } from 'react-hook-form';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -26,7 +26,7 @@ const Register = () => {
     const history = useHistory();
 
     const onSubmit = (data: FormState) => {
-        makePrivateRequest({
+        makeRequest({
             method: 'POST',
             url: '/usuarios',
             data: {
@@ -46,38 +46,43 @@ const Register = () => {
                     ddd: data.ddd,
                     numero: data.numeroTelefone
                 },
-                roles: [3]                
+                roles: [3]
             }
         })
             .then(() => {
-                toast.info('Produto cadastrado com sucesso!');
+                toast.info('Usuário cadastrado com sucesso!');
                 history.push('/admin/produtos')
             })
             .catch(() => {
-                toast.error('Erro ao salvar produto!');
+                toast.error('Erro ao cadastrar usuário!');
             });
     }
 
     return (
-        <div>
-            <Link to="/produtos" className="product-details-goback">
+        <div className="register-container">
+            <Link to="/auth/login" className="register-goback">
                 <ArrowIcon className="icon-goback" />
                 <h1 className="text-goback">Voltar</h1>
             </Link>
             <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="row">
-                        <div className="col-6">
+                    <div className="register-content-container">
+                        <div className="col-6 register-card">
+                            <h1 className="register-session-title">
+                                Dados
+                            </h1>
                             <div className="margin-bottom-30">
                                 <input
                                     name="email"
                                     type="text"
                                     className="form-control input-base"
-                                    placeholder="Email do usuário"
+                                    placeholder="Email"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        pattern: {
+                                            value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i,
+                                            message: "Email precisa ter formato válido"
+                                        }
                                     })}
                                     data-testid="email"
                                 />
@@ -95,11 +100,10 @@ const Register = () => {
                                     name="password"
                                     type="password"
                                     className="form-control input-base"
-                                    placeholder="Senha do usuário"
+                                    placeholder="Senha"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" }
                                     })}
                                     data-testid="password"
                                 />
@@ -109,7 +113,6 @@ const Register = () => {
                                         {errors.password.message}
                                     </div>
                                 )}
-
                             </div>
 
                             <div className="margin-bottom-30">
@@ -117,11 +120,10 @@ const Register = () => {
                                     name="nome"
                                     type="text"
                                     className="form-control input-base"
-                                    placeholder="Nome do usuário"
+                                    placeholder="Nome"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        minLength: { value: 3, message: "O campo deve ter no mínimo 3 caracteres" }
                                     })}
                                     data-testid="nome"
                                 />
@@ -139,11 +141,13 @@ const Register = () => {
                                     name="cpf"
                                     type="text"
                                     className="form-control input-base"
-                                    placeholder="CPF do usuário"
+                                    placeholder="CPF"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        pattern: {
+                                            value: /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/i,
+                                            message: "CPF precisa ter formato válido"
+                                        }
                                     })}
                                     data-testid="cpf"
                                 />
@@ -154,46 +158,109 @@ const Register = () => {
                                     </div>
                                 )}
                             </div>
-                        </div>
-                        <div className="col-6">
+
                             <div className="margin-bottom-30">
-                                <div className="row">
-                                    <input
-                                        name="cep"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="CEP do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="cep"
-                                    />
+                                <div className="d-flex">
 
-                                    {errors.cep && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.cep.message}
-                                        </div>
-                                    )}
-                                    <input
-                                        name="uf"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="UF do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="uf"
-                                    />
+                                    <div className="input-duplo-segundo-input">
+                                        <input
+                                            name="ddd"
+                                            type="text"
+                                            className="form-control input-base mr-2"
+                                            placeholder="DDD"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                pattern: {
+                                                    value: /[1-9]{2}/i,
+                                                    message: "DDD precisa ter formato válido"
+                                                }
+                                            })}
+                                            data-testid="ddd"
+                                        />
 
-                                    {errors.uf && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.uf.message}
-                                        </div>
-                                    )}
+                                        {errors.ddd && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.ddd.message}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="input-duplo">
+                                        <input
+                                            name="numeroTelefone"
+                                            type="text"
+                                            className="form-control input-base"
+                                            placeholder="Número Telefone"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                pattern: {
+                                                    value: /[0-9]{8}|[0-9]{9}$/i,
+                                                    message: "Telefone precisa ter formato válido"
+                                                }
+                                            })}
+                                            data-testid="numeroTelefone"
+                                        />
+
+                                        {errors.numeroTelefone && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.numeroTelefone.message}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-6 register-card">
+                            <h1 className="register-session-title">
+                                Endereço
+                            </h1>
+                            <div className="margin-bottom-30">
+
+                                <div className="d-flex">
+
+                                    <div className="input-duplo">
+                                        <input
+                                            name="cep"
+                                            type="text"
+                                            className="form-control input-base"
+                                            placeholder="CEP"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                pattern: {
+                                                    value: /^[0-9]{5}-[0-9]{3}$|^[0-9]{8}$/i,
+                                                    message: "CEP precisa ter formato válido"
+                                                }
+                                            })}
+                                            data-testid="cep"
+                                        />
+
+                                        {errors.cep && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.cep.message}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="input-duplo-segundo-input">
+                                        <input
+                                            name="uf"
+                                            type="text"
+                                            className="form-control input-base ml-3 mr-2"
+                                            placeholder="UF"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                pattern: {
+                                                    value: /AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO/i,
+                                                    message: "UF precisa ser válida"
+                                                }
+                                            })}
+                                            data-testid="uf"
+                                        />
+
+                                        {errors.uf && (
+                                            <div className="invalid-feedback d-block ml-3">
+                                                {errors.uf.message}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="margin-bottom-30">
@@ -201,11 +268,10 @@ const Register = () => {
                                     name="cidade"
                                     type="text"
                                     className="form-control input-base"
-                                    placeholder="Cidade do usuário"
+                                    placeholder="Cidade"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        minLength: { value: 3, message: "O campo deve ter no mínimo 3 caracteres" }
                                     })}
                                     data-testid="cidade"
                                 />
@@ -221,11 +287,10 @@ const Register = () => {
                                     name="logradouro"
                                     type="text"
                                     className="form-control input-base"
-                                    placeholder="Logradouro do usuário"
+                                    placeholder="Rua/Avenida"
                                     ref={register({
                                         required: "Campo obrigatório",
-                                        minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                        maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                        minLength: { value: 3, message: "O campo deve ter no mínimo 3 caracteres" }
                                     })}
                                     data-testid="logradouro"
                                 />
@@ -238,89 +303,50 @@ const Register = () => {
                             </div>
 
                             <div className="margin-bottom-30">
-                                <div className="row">
-                                    <input
-                                        name="bairro"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="Bairro do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="bairro"
-                                    />
+                                <div className="d-flex">
+                                    <div className="input-duplo">
+                                        <input
+                                            name="bairro"
+                                            type="text"
+                                            className="form-control input-base"
+                                            placeholder="Bairro"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                minLength: { value: 3, message: "O campo deve ter no mínimo 3 caracteres" }
+                                            })}
+                                            data-testid="bairro"
+                                        />
 
-                                    {errors.bairro && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.bairro.message}
-                                        </div>
-                                    )}
-                                    <input
-                                        name="numero"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="Número do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="numero"
-                                    />
+                                        {errors.bairro && (
+                                            <div className="d-flex invalid-feedback d-block">
+                                                {errors.bairro.message}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="input-duplo-segundo-input">
+                                        <input
+                                            name="numero"
+                                            type="text"
+                                            className="form-control input-base ml-3 mr-2"
+                                            placeholder="Número"
+                                            ref={register({
+                                                required: "Campo obrigatório",
+                                                minLength: { value: 1, message: "O campo deve ter no mínimo 1 caracteres" }
+                                            })}
+                                            data-testid="numero"
+                                        />
 
-                                    {errors.numero && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.numero.message}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="margin-bottom-30">
-                                <div className="row">
-
-                                    <input
-                                        name="ddd"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="DDD do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="ddd"
-                                    />
-
-                                    {errors.ddd && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.ddd.message}
-                                        </div>
-                                    )}
-                                    <input
-                                        name="numeroTelefone"
-                                        type="text"
-                                        className="form-control input-base"
-                                        placeholder="Número Telefone do usuário"
-                                        ref={register({
-                                            required: "Campo obrigatório",
-                                            minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                            maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
-                                        })}
-                                        data-testid="numeroTelefone"
-                                    />
-
-                                    {errors.numeroTelefone && (
-                                        <div className="invalid-feedback d-block">
-                                            {errors.numeroTelefone.message}
-                                        </div>
-                                    )}
+                                        {errors.numero && (
+                                            <div className="invalid-feedback d-block ml-3">
+                                                {errors.numero.message}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="button-right">
+                    <div className="button-right mt-4">
                         <Button text="CADASTRAR" className="btn btn-primary" />
                     </div>
                 </form>

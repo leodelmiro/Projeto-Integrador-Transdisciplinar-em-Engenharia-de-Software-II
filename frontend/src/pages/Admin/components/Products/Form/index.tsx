@@ -13,7 +13,7 @@ type FormState = {
     preco: string,
     quantidade: string,
     descricao: string,
-    fotos: string[];
+    foto: string;
     sabores: Sabor[];
 }
 
@@ -60,7 +60,7 @@ const Form = () => {
                 preco: data.preco,
                 quantidade: data.quantidade,
                 descricao: data.descricao,
-                fotos: [{ url: data.fotos[0] }],
+                fotos: [{ url: data.foto }],
                 sabores: data.sabores.map(sabor => sabor.id)
             }
         })
@@ -88,8 +88,7 @@ const Form = () => {
                                 placeholder="Nome do produto"
                                 ref={register({
                                     required: "Campo obrigatório",
-                                    minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" },
-                                    maxLength: { value: 60, message: "O campo deve ter no máximo 60 caracteres" }
+                                    minLength: { value: 5, message: "O campo deve ter no mínimo 5 caracteres" }
                                 })}
                                 data-testid="nome"
                             />
@@ -135,7 +134,10 @@ const Form = () => {
                                     type="number"
                                     className="form-control input-base"
                                     placeholder="Preço"
-                                    ref={register({ required: "Campo obrigatório" })}
+                                    ref={register({
+                                        required: "Campo obrigatório",
+                                        min: { value: 0.1, message: "O Valor deve ser positivo" }
+                                    })}
                                     data-testid="preco"
                                 />
 
@@ -152,7 +154,10 @@ const Form = () => {
                                     type="number"
                                     className="form-control input-base"
                                     placeholder="Quantidade"
-                                    ref={register({ required: "Campo obrigatório" })}
+                                    ref={register({ 
+                                        required: "Campo obrigatório",
+                                        min: { value: 1, message: "O Valor deve ser positivo" }
+                                    })}
                                     data-testid="quantidade"
                                 />
 
@@ -166,17 +171,23 @@ const Form = () => {
 
                         <div className="margin-bottom-30 ">
                             <input
-                                name="fotos"
+                                name="foto"
                                 type="text"
                                 className="form-control input-base"
                                 placeholder="Imagem do produto"
-                                ref={register({ required: "Campo obrigatório" })}
-                                data-testid="fotos"
+                                ref={register({ 
+                                    required: "Campo obrigatório",
+                                    pattern: {
+                                        value: /^(http|https):\/\//,
+                                        message: "Campo deve ter padrão de link"
+                                    }
+                                })}
+                                data-testid="foto"
                             />
 
-                            {errors.fotos && (
+                            {errors.foto && (
                                 <div className="invalid-feedback d-block">
-                                    {errors.fotos[0]?.message}
+                                    {errors.foto?.message}
                                 </div>
                             )}
                         </div>
