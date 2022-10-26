@@ -59,7 +59,6 @@ class ProdutoService(
     @Transactional
     fun inserir(dto: ProdutoInclusaoDTO): ProdutoResponseDTO =
             dto.toEntidade(saborRepository).apply {
-                dto.fotos.map { foto -> this.addFoto(Foto(url = foto.url, produto = this)) }
                 produtoRepository.save(this)
             }.let { entidade ->
                 ProdutoResponseDTO(entidade)
@@ -86,7 +85,7 @@ class ProdutoService(
         dto.sabores?.let {
             this.sabores = dto.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toSet()
         }
-        dto.fotos?.map { foto -> this.addFoto(Foto(url = foto.url, produto = this)) }
+        dto.foto?.let { (Foto(url = foto.url)) }
     }
 
 

@@ -67,7 +67,7 @@ const ProductDetails = () => {
                         {isLoading ? <ProductInfoLoader /> : (
                             <>
                                 <div className="product-details-card text-center">
-                                    <img src={product?.fotos[0]} alt={product?.nome} className="product-details-image" />
+                                    <img src={product?.foto} alt={product?.nome} className="product-details-image" />
                                 </div>
                                 <div className="product-info-fields">
                                     <h1 className="product-details-name">

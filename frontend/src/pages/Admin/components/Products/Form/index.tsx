@@ -38,7 +38,7 @@ const Form = () => {
                     setValue('preco', response.data.preco);
                     setValue('quantidade', response.data.quantidade);
                     setValue('descricao', response.data.descricao);
-                    setValue('fotos', response.data.fotos[0]);
+                    setValue('fotos', response.data.foto);
                     setValue('sabores', response.data.sabores)
                 })
         }
@@ -60,7 +60,7 @@ const Form = () => {
                 preco: data.preco,
                 quantidade: data.quantidade,
                 descricao: data.descricao,
-                fotos: [{ url: data.foto }],
+                foto: { url: data.foto },
                 sabores: data.sabores.map(sabor => sabor.id)
             }
         })

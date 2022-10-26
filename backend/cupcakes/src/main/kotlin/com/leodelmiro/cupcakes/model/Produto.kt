@@ -26,13 +26,8 @@ data class Produto(
                 joinColumns = [JoinColumn(name = "produto_id")],
                 inverseJoinColumns = [JoinColumn(name = "sabor_id")])
         var sabores: Set<Sabor> = mutableSetOf(),
-        @field:OneToMany(
-                mappedBy = "produto",
-                fetch = FetchType.EAGER,
-                cascade = [CascadeType.ALL],
-                orphanRemoval = true
-        )
-        val fotos: List<Foto> = mutableListOf(),
+        @field:Embedded
+        val foto: Foto,
         @field:CreationTimestamp
         @field:Column(nullable = false, updatable = false)
         val criadoEm: LocalDateTime = LocalDateTime.now(),
@@ -41,5 +36,4 @@ data class Produto(
         val atualizadoEm: LocalDateTime? = null
 ) {
         fun addSabor(sabor: Sabor) = this.sabores + sabor
-        fun addFoto(foto: Foto) = this.fotos + foto
 }

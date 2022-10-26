@@ -9,13 +9,13 @@ data class ProdutoPedidoResponseDTO(
         val quantidade: Int,
         val preco: BigDecimal,
         val sabores: Set<Sabor>,
-        val fotos: List<String>
+        val fotos: String
 ) {
     constructor(produto: Produto, quantidade: Int) : this(
             nome = produto.nome,
             quantidade = quantidade,
             preco = produto.preco,
             sabores = produto.sabores,
-            fotos = produto.fotos.map { foto -> foto.url }
+            fotos = produto.foto.url
     )
 }

@@ -1,6 +1,7 @@
 package com.leodelmiro.cupcakes.dto
 
 import com.leodelmiro.cupcakes.controllers.validacoes.SaboresValidos
+import com.leodelmiro.cupcakes.model.Foto
 import com.leodelmiro.cupcakes.model.Produto
 import com.leodelmiro.cupcakes.repositories.SaborRepository
 import java.math.BigDecimal
@@ -21,8 +22,8 @@ data class ProdutoInclusaoDTO(
         @field:SaboresValidos
         val sabores: List<Long>,
         @field:Valid
-        @field:Size(min = 1, message = "Insira pelo menos uma foto")
-        val fotos: List<@Valid FotoDTO>
+        @field:NotNull(message = "Foto não pode ser nula.")
+        val foto: FotoDTO
 ) {
 
     companion object {
@@ -31,8 +32,8 @@ data class ProdutoInclusaoDTO(
                 quantidade = this.quantidade,
                 preco = this.preco,
                 descricao = this.descricao,
-                sabores = this.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toSet()
+                sabores = this.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toSet(),
+                foto = Foto(url = this.foto.url)
         )
-
     }
 }

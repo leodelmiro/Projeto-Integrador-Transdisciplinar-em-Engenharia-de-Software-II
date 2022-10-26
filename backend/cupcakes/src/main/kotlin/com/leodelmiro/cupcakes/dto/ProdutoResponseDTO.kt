@@ -11,7 +11,7 @@ data class ProdutoResponseDTO(
         val preco: BigDecimal,
         val descricao: String,
         val sabores: Set<Sabor>,
-        val fotos: List<String>
+        val foto: String
 ) {
     constructor(entidade: Produto) : this(
             id = entidade.id,
@@ -20,6 +20,6 @@ data class ProdutoResponseDTO(
             preco = entidade.preco,
             descricao = entidade.descricao,
             sabores = entidade.sabores,
-            fotos = entidade.fotos.map { foto -> foto.url },
+            foto = entidade.foto.url
     )
 }

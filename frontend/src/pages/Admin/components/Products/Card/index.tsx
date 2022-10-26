@@ -13,7 +13,7 @@ const Card = ({ product: produto, onRemove }: Props) => {
         <div className="card-base product-card-admin">
             <div className="text-center border-right py-3">
                 <img
-                    src={produto.fotos[0]}
+                    src={produto.foto}
                     alt={produto.nome}
                     className="product-card-image-admin"
                 />
