@@ -1,0 +1,66 @@
+.edit-container {
+    padding: 60px 0px 60px 0;
+    margin: 40px 40px;
+}
+
+.edit-content {
+    padding: 0px 60px 33px 60px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.register-content-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-goback {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.icon-goback {
+    color: #FF40B3;
+    transform: rotate(-180deg);
+    margin-right: 30px;
+}
+
+.text-goback {
+    font-size: 24px;
+    line-height: 33px;
+    letter-spacing: -0.015em;
+    color: #263238;
+    text-transform: uppercase;
+}
+
+.edit-card {
+    border: 1px solid #E1E1E1;
+    border-radius: 20px;
+    padding: 38px 29px;
+    max-width: 920px;
+}
+
+.register-session-title {
+    font-size: 24px;
+    line-height: 33px;
+    letter-spacing: -0.015em;
+    color: #9E9E9E;
+    margin-bottom: 25px;
+}
+
+.input-duplo {
+    flex-grow: 3
+}
+
+.input-duplo-segundo-input {
+    max-width: 25%;
+    margin-right: 15px;
+}
+
+.button-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    padding: 24px 24px 0 0;
+}

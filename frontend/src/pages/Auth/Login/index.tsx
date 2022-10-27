@@ -22,7 +22,7 @@ const Login = () => {
     const history = useHistory();
     const location = useLocation<LocationState>();
 
-    const { from } = location.state || { from: { pathname: "/admin" } };
+    const { from } = location.state || { from: { pathname: "/produtos" } };
 
     const onSubmit = (data: FormState) => {
         makeLogin(data)

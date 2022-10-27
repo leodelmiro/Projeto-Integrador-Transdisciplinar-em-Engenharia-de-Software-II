@@ -51,7 +51,7 @@ const Register = () => {
         })
             .then(() => {
                 toast.info('Usuário cadastrado com sucesso!');
-                history.push('/admin/produtos')
+                history.push('/produtos')
             })
             .catch(() => {
                 toast.error('Erro ao cadastrar usuário!');

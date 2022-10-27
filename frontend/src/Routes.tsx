@@ -41,6 +41,10 @@ const Routes = () => (
             <Route path="/perfil">
                 <User />
             </Route>
+            <Redirect from="/perfil" to="/perfil/dados" exact />
+            <Route path="/perfil">
+                <User />
+            </Route>
         </Switch>
     </Router>
 );
