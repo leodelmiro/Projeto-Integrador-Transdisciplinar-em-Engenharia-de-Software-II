@@ -12,3 +12,6 @@ feign:
 springdoc:
   swagger-ui:
     use-root-path: true
+    path: /swagger-ui.html
+  api-docs:
+    path: /cupcakes-api

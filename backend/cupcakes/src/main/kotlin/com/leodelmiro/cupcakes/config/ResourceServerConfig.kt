@@ -68,7 +68,7 @@ class ResourceServerConfig(
 
     companion object {
         private const val USUARIO_ENDPOINT = "/usuarios/**"
-        private val PUBLICO: Array<String> = arrayOf("/oauth/token", "/h2-console/**")
+        private val PUBLICO: Array<String> = arrayOf("/oauth/token", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**", "/cupcakes-api", "/swagger-ui.html")
         private val PUBLICO_OR_VENDEDOR = arrayOf("/produtos/**", "/sabores/**", "/enderecos/**")
         private val USUARIO_OR_VENDEDOR = arrayOf("/pedidos/**")
         private val ADMIN = arrayOf("/roles/**", "/usuarios/**", "/pedidos/**")

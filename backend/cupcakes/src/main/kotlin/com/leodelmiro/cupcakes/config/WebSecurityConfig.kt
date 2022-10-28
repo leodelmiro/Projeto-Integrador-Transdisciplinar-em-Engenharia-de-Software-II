@@ -20,7 +20,7 @@ class WebSecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(web: WebSecurity) {
-        web.ignoring().antMatchers("/actuator/**")
+        web.ignoring().antMatchers("/actuator/**", "/swagger-ui/**", "/v3/api-docs/**", "/cupcakes-api", "/swagger-ui.html")
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
