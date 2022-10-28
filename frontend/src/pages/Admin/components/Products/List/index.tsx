@@ -17,7 +17,7 @@ const List = () => {
 
     const getProducts = useCallback((filter?: FilterForm) => {
         const params = {
-            page: activePage,
+            pagina: activePage,
             produtosPorPagina: 4,
             direction: 'DESC',
             orderBy: 'id',
