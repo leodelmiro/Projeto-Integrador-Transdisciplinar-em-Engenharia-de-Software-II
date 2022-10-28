@@ -38,7 +38,7 @@ const Form = () => {
                     setValue('preco', response.data.preco);
                     setValue('quantidade', response.data.quantidade);
                     setValue('descricao', response.data.descricao);
-                    setValue('fotos', response.data.foto);
+                    setValue('foto', response.data.foto);
                     setValue('sabores', response.data.sabores)
                 })
         }
@@ -65,7 +65,7 @@ const Form = () => {
             }
         })
             .then(() => {
-                toast.info('Produto cadastrado com sucesso!');
+                toast.info('Produto salvo com sucesso!');
                 history.push('/admin/produtos')
             })
             .catch(() => {
