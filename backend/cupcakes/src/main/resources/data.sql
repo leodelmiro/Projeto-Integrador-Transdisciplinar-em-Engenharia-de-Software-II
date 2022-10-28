@@ -24,9 +24,9 @@ INSERT INTO tb_sabor (nome, criado_em) VALUES ('Chocolate', NOW());
 INSERT INTO tb_sabor (nome, criado_em) VALUES ('Baunilha', NOW());
 INSERT INTO tb_sabor (nome, criado_em) VALUES ('Nutella', NOW());
 
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Baunilha', 1, 5.5, 'Cupcake de Baunilha', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Chocolate', 1, 5.5, 'Cupcake de Chocolate', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
-INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Nutella', 1, 5.5, 'Cupcake de Nutella', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Baunilha', 1, 5, 'Cupcake de Baunilha', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Chocolate', 1, 5, 'Cupcake de Chocolate', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
+INSERT INTO tb_produto (nome, quantidade, preco, descricao, criado_em, url) VALUES ('Cupcake de Nutella', 1, 5, 'Cupcake de Nutella', NOW(), 'https://cdn-icons-png.flaticon.com/512/3173/3173443.png');
 
 INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (1, 1);
 INSERT INTO tb_produto_sabor (produto_id, sabor_id) VALUES (2, 2);

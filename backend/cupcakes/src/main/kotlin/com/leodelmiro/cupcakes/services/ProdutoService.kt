@@ -83,7 +83,7 @@ class ProdutoService(
         dto.preco?.let { this.preco = it }
         dto.descricao?.let { this.descricao = it }
         dto.sabores?.let {
-            this.sabores = dto.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toSet()
+            this.sabores = dto.sabores.map { saborId -> saborRepository.getReferenceById(saborId) }.toMutableSet()
         }
         dto.foto?.let { (Foto(url = foto.url)) }
     }
